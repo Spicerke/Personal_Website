@@ -10,35 +10,35 @@
 <header class="site-header">
   <div class="header-container">
     <a href="index.html" class="logo">KS</a>
-    <span class="header-tagline">Kai Spicer &mdash; Portfolio</span>
+    <span class="header-tagline">Kai Spicer's Portfolio</span>
 <nav class="nav-menu">
       <a href="index.html" class="nav-button active">About</a>
       <div class="dropdown">
         <a href="Experience.html" class="nav-button">Work Experience <span class="caret">&#9660;</span></a>
         <div class="dropdown-content">
-          <a href="Experience.html#job1">L2 Labs</a>
-          <a href="Experience.html#job2">Columbia DirecT Lab</a>
-          <a href="Experience.html#job3">PNNL-Radiolgial Materials Team</a>
+          <a href="Experience.html#L2_Labs">L2 Labs</a>
+          <a href="Experience.html#DirecT">Columbia's DirecT Lab</a>
+          <a href="Experience.html#PNNL">PNNL's Radiolgial Materials Team</a>
         </div>
       </div>
       <div class="dropdown">
-        <a href="Software.html" class="nav-button">Software <span class="caret">&#9660;</span></a>
+        <a href="Software.html" class="nav-button">Software Projects<span class="caret">&#9660;</span></a>
         <div class="dropdown-content">
-          <a href="Software.html#project1">Claim Detection App</a>
-          <a href="Software.html#project2">Trained & Fine Tuned GPT-2/BERT</a>
-          <a href="Software.html#project3">Custom HTTP Web Server(C)</a>
-          <a href="Software.html#project4">Free Throw Simulation (Python/Flask, HTML, CSS)</a>
+          <a href="Software.html#ClaimDetect">Claim Detection App</a>
+          <a href="Software.html#GPT">Trained & Fine Tuned GPT-2/BERT</a>
+          <a href="Software.html#WebServer">Custom HTTP Web Server(C)</a>
+          <a href="Software.html#FreeThrow">Free Throw Simulation (Python/Flask, HTML, CSS)</a>
         </div>
       </div>
       <div class="dropdown">
-        <a href="Hardware.html" class="nav-button">Hardware <span class="caret">&#9660;</span></a>
+        <a href="Hardware.html" class="nav-button">Hardware Projects<span class="caret">&#9660;</span></a>
         <div class="dropdown-content">
-          <a href="Hardware.html#build1">FPGA Piano</a>
-          <a href="Hardware.html#build2">Digital Frequency Meter</a>
-          <a href="Hardware.html#build3">Clock Generator</a>
+          <a href="Hardware.html#FPGA">FPGA Piano</a>
+          <a href="Hardware.html#FreqMeter">Digital Frequency Meter</a>
+          <a href="Hardware.html#ClockGen">Clock Generator</a>
         </div>
       </div>
-      <a href="Contact.html" class="nav-button">Contact</a>
+      <a href="Contact.html" class="nav-button">Contact Info</a>
     </nav>
     <!-- ── ICON CIRCLES  ── -->
     <div class="header-icons">
@@ -69,10 +69,94 @@
   </div>
 </header>
 <main class="page-content">
-  <section class="hero">
-    <h1>Work Experience</h1>
-    <p>Information about my work experience (and images)</p>
-  </section>
+  <div class="experience-container">
+    <section class="hero full-width">
+      <h1>Work Experience</h1>
+      <p>Below is a detailed summary of my current work experience, due to the majority of 
+        my working being in research labs, a lot of the work I've done is confidential or 
+        still waiting to be published. Due to this I can only include broad descriptions and share
+        samples of my work that have been cleared for public release. If you have any further 
+        questions about my work experience feel free to contact me and I will share more detail 
+        if I can. 
+      </p>
+
+      <div class="content-block">
+        <h2 id="L2_Labs">L2 Labs (Summer 2026)</h2>
+        <p>
+          Detailed paragraph about the beginning of your work here. When you want to add an image 
+          later, you will insert the image tag right before the paragraph you want to wrap around it.
+        </p>
+        <p>
+          Another paragraph of details. Because there is no image here yet, this text will 
+          simply span the full width of the page.
+        </p>
+      </div>
+
+      <div class="content-block">
+        <h2 id="DirecT">Columbia's DirecT Lab (Spring 2026)</h2>
+        <p>Details about your work at Columbia's DirecT Lab.</p>
+      </div>
+
+      <div class="content-block">
+        <h2 id="PNNL">PNNL's Radiological Materials Team (Summer 2025)</h2>
+        <h3>SULI Project: ESTOMP Input Card Generator</h3>
+        <p>In the summer of 2025 I was selected to be apart of the Science Undergraduate Laboratory
+           Internship (SULI) program at the Pacific Northwest National Laboratory (PNNL). 
+          I worked with the Radiological Materials Team in the Nuclear Science Division, 
+          assisting with modeling the long term behavior of the nucular waste stored at the 
+          Hanford site. This internship cumulatied in a Final Poster presentation that I 
+          presented to the Lab and a group of my peers. Below is a copy of my poster along with
+          an shortened version of the speech I would give you if asked at a poster presentation.
+          </p>
+
+          <img src="Images/Spicer_Final_Poster.png" alt="PNNL Poster" class="inline-left">
+          <p>
+            My project was focused on making the life of researchers easier, the team I 
+            worked with is focused on modeling the around 50 million gallons of nucular waste
+            stored in underground tanks at the Hanford site. In order to model this waste, 
+            we use a powerful tool developed by PNNL called ESTOMP (Enhanced Subsurface Transport Over Multiple Phases).
+            This tool also modeling of complex chemical reactions; However, 
+            because it was develpoped in the early 2000s, it is written entirly in Fortran 
+            and is not very user friendly.  
+          </p>
+
+          <p>
+            In order to achive this I used python to create a GUI that automates the creation of 
+            input cards for ESTOMP. These input cards are text files that contain all the parameters for a given simulation, 
+            they can be very long and complex, and a small mistake can cause a simulation to fail.
+            My GUI allows users to input all the parameters through a user friendly interface, 
+            and then automatically generates the input card for them. 
+            This not only saves time, but also reduces the chances of errors in the input cards.
+          </p>
+          <p>
+            Overall, this project was a great learning expirence. It allowed me to work with 
+            messy data formats, legacy software and a domain specific research case.
+            If you want to learn more about the details of this project you can read the 
+            full research paper that I co-authored with my mentor and the team, 
+            which is linked <a href="Downloaders/Suli_Essay_Final copy.pdf" target="_blank">here</a>. 
+          </p>
+
+          <h3>EPA 1315 data proccessing</h3>
+          <p>
+            After my summer SULI session, I was extended to continue working with the 
+            team as a Tech Intern. In this role I support the team with various tasks, 
+            one of which was helping to create a script that proccesses EPA 1315 test
+            data taht is collected in lab into a format tha can later be used in publications.
+            This required us to create a standartized format for the input data. A python script that 
+            calculates all needed values and outputs them into the correct format. And a dynamic
+            excel template that can be used to visulize all variations of the test. 
+          </p>
+          <p>
+            After finishing up this project locally me and my mentor submitted it for software review
+            within the lab so that it can be used in the actual research proccsss. This gave me 
+            great expirence in quality assurance and the review proccess for software in a research 
+            setting. This script is still being improved and going through the review proccess,
+            so I can't share the final version of it yet but I hope to continue to work on it
+            this summer. 
+          </p>
+      </div>
+    </section>
+  </div>
 </main>
 <footer class="site-footer">
   <div class="footer-bar"></div>

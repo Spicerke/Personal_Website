@@ -160,17 +160,79 @@ main.page-content {
 .hero h1 {
   font-family: 'Space Mono', monospace;
   font-size: 2.6rem;
-  font-weight: 700;
+  font-weight: 800;
   color: #2c2416;
   margin-bottom: 14px;
   letter-spacing: -0.02em;
 }
 .hero p {
+  font-size: 1.15rem;
+  color: #6b5e4e;
+  font-weight: 400;
+  max-width: 1000px;
+  line-height: 1.7;
+}
+
+/* ── EXPERIENCE PAGE: CENTERED CONTENT ── */
+.experience-container {
+  width: 100%;
+  max-width: 900px;       /* controls readable line width */
+  margin: 0 auto;         /* centers the entire container */
+  text-align: left;       /* keep text left-aligned for readability */
+}
+
+/* Each experience block */
+.content-block {
+  width: 100%;
+  margin: 0 auto 40px auto;
+  text-align: left;
+  overflow: hidden;       /* contains floated images */
+}
+
+.content-block h2 {
+  font-family: 'Space Mono', monospace;
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #2c2416;
+  margin: 0 0 12px 0;
+}
+
+.content-block p {
   font-size: 1.05rem;
   color: #6b5e4e;
-  font-weight: 300;
-  max-width: 520px;
-  line-height: 1.7;
+  line-height: 1.75;
+  margin: 0 0 16px 0;
+}
+
+/* Clearfix for floated images */
+.content-block::after {
+  content: "";
+  display: block;
+  clear: both;
+}
+
+/* ── INLINE IMAGE (float-left, text wraps around it) ── */
+.inline-left {
+  float: left;
+  width: min(360px, 45%);
+  max-width: 360px;
+  height: auto;
+  margin: 6px 22px 14px 0;     /* top, right, bottom, left */
+  border-radius: 12px;
+  object-fit: cover;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+}
+
+/* Optional: inline-right if you want right-floated images too */
+.inline-right {
+  float: right;
+  width: min(360px, 45%);
+  max-width: 360px;
+  height: auto;
+  margin: 6px 0 14px 22px;
+  border-radius: 12px;
+  object-fit: cover;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
 }
 
 /* ── FOOTER ── */
@@ -212,10 +274,21 @@ main.page-content {
   .footer-inner { padding: 16px 20px; flex-direction: column; gap: 6px; text-align: center; }
 }
 
+@media (max-width: 700px) {
+  .inline-left,
+  .inline-right {
+    float: none;
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    margin: 0 0 16px 0;
+  }
+}
+
 /* ── HEADER ICON CIRCLES ── */
 .header-icons {
   position: absolute;
-  right: 570px; /* <-- adjust this to move the group left/right */
+  right: 700px; /* <-- adjust this to move the group left/right */
   display: flex;
   align-items: center;
   gap: 15px;
@@ -249,15 +322,72 @@ main.page-content {
 }
 
 .flaticon-img {
-  width: 20px;   /* Adjust size to match your nav buttons */
+  width: 20px;
   height: 20px;
   object-fit: contain;
-  /* This filter turns a black Flaticon icon into the light 'text-dim' color */
   filter: brightness(0) invert(0.8); 
   transition: filter 0.2s;
 }
 
 .header-icon:hover .flaticon-img {
-  /* Turns the icon white or accent color on hover */
   filter: brightness(0) invert(1);
+}
+
+/* ── MAIN CONTENT LAYOUT (for index.html with profile image) ── */
+.content-container {
+  display: flex;
+  flex-direction: row; 
+  align-items: center;
+  gap: 50px;          
+  width: 100%;
+}
+
+.image-container {
+  width: 340px;       
+  height: 340px;
+  flex-shrink: 0;      
+}
+
+.profile-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;   
+  border-radius: 20px; 
+  box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+}
+
+.hero {
+  flex: 1;             
+}
+
+/* ── RESPONSIVE MOBILE VIEW ── */
+@media (max-width: 900px) {
+  .content-container {
+    flex-direction: column;
+    text-align: center;
+    gap: 30px;
+  }
+
+  .image-container {
+    margin: 0 auto;        
+  }
+}
+
+/* Utility classes for wrapping images (legacy support) */
+.wrap-left {
+  float: left;
+  max-width: 400px;
+  width: 100%;
+  height: auto;
+  margin: 10px 25px 15px 0;
+  border-radius: 12px;
+}
+
+.wrap-right {
+  float: right;
+  max-width: 400px;
+  width: 100%;
+  height: auto;
+  margin: 10px 0 15px 25px;
+  border-radius: 12px;
 }
