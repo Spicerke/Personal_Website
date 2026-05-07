@@ -373,21 +373,3 @@ main.page-content {
   }
 }
 
-/* Utility classes for wrapping images (legacy support) */
-.wrap-left {
-  float: left;
-  max-width: 400px;
-  width: 100%;
-  height: auto;
-  margin: 10px 25px 15px 0;
-  border-radius: 12px;
-}
-
-.wrap-right {
-  float: right;
-  max-width: 400px;
-  width: 100%;
-  height: auto;
-  margin: 10px 0 15px 25px;
-  border-radius: 12px;
-}

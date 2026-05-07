@@ -69,8 +69,8 @@
   </div>
 </header>
 <main class="page-content">
-  <div class="experience-container">
     <section class="hero full-width">
+    <div class="content-block">
       <h1>Work Experience</h1>
       <p>Below is a detailed summary of my current work experience, due to the majority of 
         my working being in research labs, a lot of the work I've done is confidential or 
@@ -79,22 +79,60 @@
         questions about my work experience feel free to contact me and I will share more detail 
         if I can. 
       </p>
-
+    </div>
       <div class="content-block">
         <h2 id="L2_Labs">L2 Labs (Summer 2026)</h2>
         <p>
-          Detailed paragraph about the beginning of your work here. When you want to add an image 
-          later, you will insert the image tag right before the paragraph you want to wrap around it.
-        </p>
-        <p>
-          Another paragraph of details. Because there is no image here yet, this text will 
-          simply span the full width of the page.
+          This summer I am excited to be working as a Software Engineering Intern at L2 Labs, 
+          a startup focused on solving the problems of data interoperablity. My work this summer
+          is focused on helping them fine tune their current AI models; However, due to the small team
+          I will also be helping out with anything they need, giving me a great oppertunity to 
+          learn about the end to end proccess of developing a product. My work here is just starting
+          but I hope to update the website when I have more to share about the projects I'm working on. 
         </p>
       </div>
 
       <div class="content-block">
         <h2 id="DirecT">Columbia's DirecT Lab (Spring 2026)</h2>
-        <p>Details about your work at Columbia's DirecT Lab.</p>
+        <h3>Graphical Convolution Network (GCN) Comparison</h3>
+        <p>
+         This spring I was selected as a research assistant in Columbia University's DirecT Lab, 
+         where I worked on a project comparing the performance of different Graphical Convolution Networks (GCNs)
+         on 270 previously collected videos of mobility aids that were scraped from stock youtube videos. 
+        </p>
+        <img src="Images/Pose.png" alt="poseModel" class="inline-left" style="width: 230px; max-width: 100%;"  >
+        <p>
+        The first step of this process was to procces the raw videos and extract the needed datapoints
+        to train a GCN. This involves using pose estimation to extract 17 key points from the body and
+        saving these points over time in a .npy file. I used the Mediapipe library to do this, my script 
+        downloads each video of a GCS Bucket proccesses it in discrete chunks (10s,5s,1s) and then 
+        labels and splits the data into training and testing sets. A visulized output of one of the 
+        pose extractions can be seen to the left.
+        </p>
+        <p>
+          After extracing all of the data I then had to make sure it would work on the 
+          research repository's existing GCN code and in google colab to save compute time. 
+          This involved injecting some code into each format so that our data correclty loaded.
+          After injecting our fixes I was able to test our data on the 3 seperate models and 
+          report the success based on the accuracy and loss of each model. This reasearch is 
+          still unpublished but I hope to be able to share more details about it in the future. 
+        </p>
+        <h3>Gait Analysis</h3>
+        <p>
+        After the GCN project was finished, I started working on a new project with the same
+        pose data that I extracted for the GCN project. This new project is focused on using the pose
+        paramaters of the people in the videos and try and train a quicker machine learning model
+        based on those parameters. After a liteurature review of the field I extracted 16 different 
+        paramters and tried 6 different machine learning models to see if I could acheive a 
+        high accuracy in classifying the type of mobility aid used in the video. 
+        </p>
+        <p>
+        Once I had a model trained on gait paramters, I then started to use it to clasify real
+        videos the lab had collected of people crossing the street near our campus. Our end
+        goal is to be able to autoclassify users of mobility aids within these videos and extract
+        the pose data in order to train future models. This project is still in its early stages
+        but has been a great learning expirence in the field of gait analysis and machine learning. 
+        </p>
       </div>
 
       <div class="content-block">
@@ -109,7 +147,7 @@
           an shortened version of the speech I would give you if asked at a poster presentation.
           </p>
 
-          <img src="Images/Spicer_Final_Poster.png" alt="PNNL Poster" class="inline-left">
+          <img src="Images/Spicer_Final_Poster.png" alt="PNNL Poster" class="inline-left" style="width: 600px; max-width: 100%;">
           <p>
             My project was focused on making the life of researchers easier, the team I 
             worked with is focused on modeling the around 50 million gallons of nucular waste
@@ -147,7 +185,7 @@
             excel template that can be used to visulize all variations of the test. 
           </p>
           <p>
-            After finishing up this project locally me and my mentor submitted it for software review
+            After finishing up this project my mentor and I submitted it for software review
             within the lab so that it can be used in the actual research proccsss. This gave me 
             great expirence in quality assurance and the review proccess for software in a research 
             setting. This script is still being improved and going through the review proccess,
