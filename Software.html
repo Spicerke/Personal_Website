@@ -132,20 +132,126 @@
       <div class="content-block">
         <h2 id="WebServer"style="padding-bottom: 0px; margin-bottom: 0px;">Custom C-based Web Server</h2>
         <p style="margin-top: 0px; padding-bottom: 5px; font-size: 1.2em;">
-          <i>Github:</i> This project is currently being used as a homework assignment for a class, so I am not able to share the code publically. If you are interested in seeing the code please reach out to me directly and I would be happy to share it with you.
+          <i>Github: This code is private due to its use as a homework assignment.</i> 
         </p>
+        <h3> Overview </h3>
         <p>
-          paragraph abt C web server. 
+        This project was completed as a cumulative project for COMS 3157 (Advanced Programming)
+        at Columbia University. The goal of the project was to create a custom HTTP web server 
+        in C that could handle multiple concurrent connections and serve static files along with a 
+        sample database we also developed in class. The server was designed to be simple and 
+        efficient, and it was implemented using the socket API and basic C to handle multiple
+        users and serve files from a specified directory. The server also included basic
+        error handling and logging capabilities to ensure that it could be used in a 
+        production environment.
+        </p>
+
+        <h3> System Architecture & Design  </h3>
+        <p>
+         This project was developed entirley in C using the socket API. It is a 
+         iterative TCP server that listens for incoming connections on a specified port.
+         Unlike a multithreaded server his architecture processes one HTTP request to completion 
+         before moving to the next in the queue. I used basic socket(), bind(), and listen() calls
+         to handel the TCP lifecycle. Before the server started up it also connected to a 
+         database we also developed in C during the class. This connetion was made beforehand to
+        minimizes latency by avoiding a new handshake for every user query. This design helped
+        us mirror a classic 3-teir architecture with the web server acting as the presentation 
+        layer, the database acting as the data layer, and the server logic acting as the 
+        application layer.
+        </p>
+
+      <h3> Database Integration  </h3>
+        <p>
+        The database we developed for this parses a 
+        binary database file using fread and dynamically populates a 
+        custom linked list with MdbRec structures, ensuring the dataset is
+        memory-resident for high-speed retrieval. The core search logic leverages 
+        higher-order functions and function pointers, passing a callback 
+        to a generic traverseList routine that performs case-sensitive substring matching
+        via strstr. This architecture effectively decouples the data traversal from 
+        the business logic, while a final cleanup pass with a freeData callback ensures
+        a leak-free lifecycle, a critical requirement for systems-level programming. 
+        </p>
+
+      <h3> Error Handling  </h3>
+        <p>
+        To ensure that our server was resilant to user inputs I implemented robust 
+        error handeling that covered a wide range of potential issues. 
+        This included handling malformed HTTP requests, the server takes the inputed
+        request and parses it to ensure that it follows the correct HTTP format. It 
+        matches to ensure the HTTP version is correct, that the URI starts with a / 
+        among other simmalar checks. When any of these errors are discovered the 
+        server responds with the appropriate HTTP error code and message. 
+        I also implemented error handling for file not found errors, permission errors, 
+        and other common issues that could arise when serving static files.
+        All errors are also logged to the terminal with the IP address of the user 
+        for debugging purposes. 
         </p>
       </div>
+      </div>
+
 
         <div class="content-block">
         <h2 id="FreeThrow"style="padding-bottom: 0px; margin-bottom: 0px;">Physics-based Free Throw Simulation</h2>
         <p style="margin-top: 0px; padding-bottom: 5px; font-size: 1.2em;">
-          <i>Github:</i> 
+          <i>Github: Private due to academic integrity policies </i> 
         </p>
+        <h3> Overview </h3>
         <p>
-          paragraph abt Free throw sim 
+        This project was completed as a cumulative project for my computer simulation class
+        at Washington & Jefferson College. The goal of the project was to create a 
+        physics-based simulation of a basketball free throw loosly based off of this paper
+        <a href=target="_blank">"A physics-based model of basketball free throw trajectories"</a>. 
+        Our simulation was wrapped in a frontend that allowed users to input the initial 
+        conditions of the free throw (angle, velocity, etc.) and see a visual representation 
+        of the trajectory of the ball. The simulation was designed to be as accurate as possible
+         while still being computationally efficient, and it included factors such as air 
+        resistance and spin to create a more realistic simulation. 
+        The project was completed in Python using libraries such as NumPy and Matplotlib 
+        for the physics calculations and visualization.
+        </p>
+
+        <h3>Physics</h3>
+        <p>
+        This project simulates projectile motion by modeling a ball's trajectory in a 
+        two-dimensional plane, assuming linear, front-facing shots with negligible lateral
+        (<i>Z</i>-axis) deviation. The system accounts for standard environmental constants 
+        on Earth, such as gravitational acceleration (<i>g</i> = &minus;9.81 m/s<sup>2</sup>)
+        and air density (&rho; = 1.225 kg/m<sup>3</sup>)—while calculating dynamic trajectory
+        paths based on variable release velocities, angles, and initial ball dimensions. 
+        Aerodynamic drag is incorporated via the drag equation 
+        (<i>F<sub>D</sub></i> = &frac12;&rho;<i>v</i><sup>2</sup><i>C<sub>D</sub>A</i>) 
+        for translational movement, though the ball's initial backspin (&omega;) is assumed to 
+        remain constant through the flight due to minimal atmospheric friction. To keep the simulation 
+        universally applicable across different targets (like basketball hoops or trash cans), 
+        backboard reflections and complex rim physics are omitted; instead, a geometric clearance 
+        allowance (<i>sin(&alpha;) = r / (2R - r)</i>) determines a successful score. 
+        </p>
+        <h3>Parameters</h3>
+        <div class="inline-right" style="float: right; display: flex; flex-direction: column; gap: 15px; margin: -50px 0 15px 25px;">
+          <img src="Images/FreeThrowParams.png" alt="Claim text input" style="width: 500px; max-width: 100%;">
+          <img src="Images/FreeThrowParamsExtra.png" alt="Claim Frontend" style="width: 300px; max-width: 100%;">
+        </div>
+        <p>
+        The user interfave allows for the input of several paramaters that can be adjusted 
+        in between shots. The main paramaters that one would change shot to shot are on the front
+        page and include the release angle, release velocity, your height and backspin. 
+        There are also several other paramters relating to the enviorment and the ball that can 
+        be changed in a seperate settings page. You can choose new destnations to shoot the ball 
+        such as the moon or underwater which changes the enviormental constants to match those 
+        destnations. You can also change the height, size and distance away from the hoop you are.
+        Finally you can change the size and mass of the ball which allows you to have fun with
+        the physics and see how different balls would fly in differnet locations.
+        </p>
+
+        <h3>Demo</h3>
+        <p>
+        Below is a demo of the simulation in action. 
+        In this demo the user is shooting a basketball from a regular free throw line 
+        with a release angle of 45 degrees, a release velocity of 8 m/s, 
+        and a backspin of 3 rad/s. As you can see the ball follows a realistic trajectory 
+        and goes through the hoop. An animation along with a static graph of the trajectory
+        is shown to the user after each shot.
         </p>
       </div>
   </section>

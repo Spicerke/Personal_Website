@@ -223,18 +223,15 @@ main.page-content {
   box-shadow: 0 8px 20px rgba(0,0,0,0.1);
 }
 
-/* Optional: inline-right if you want right-floated images too */
+/* Updated inline-right */
 .inline-right {
   float: right;
-  width: min(360px, 45%);
-  max-width: 360px;
-  height: auto;
-  margin: 6px 0 14px 22px;
+  /* Changed top margin to -5px to move it up. Adjust this number as needed! */
+  margin: -5px 0 14px 22px; 
   border-radius: 12px;
   object-fit: cover;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+  /* box-shadow removed to get rid of the weird background shadow */
 }
-
 /* ── FOOTER ── */
 .site-footer { margin-top: auto; width: 100%; }
 
