@@ -1,11 +1,11 @@
 [Unit]
-Description=Contact form endpoint for kaispicer.com
+Description=Contact form endpoint for kai-spicer.com
 After=network-online.target
 Wants=network-online.target
 
 [Service]
-User=kai
-Group=kai
+User=spicerke
+Group=spicerke
 WorkingDirectory=/opt/kai-contact
 EnvironmentFile=/etc/kai-contact.env
 

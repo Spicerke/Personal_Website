@@ -1,5 +1,10 @@
 .DS_Store
 
+# Editor scratch
+*.swp
+*.swo
+*~
+
 # Server-side secrets and data — never commit the filled-in versions.
 server/.env
 server/*.jsonl

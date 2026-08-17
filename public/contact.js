@@ -1,7 +1,7 @@
 // Contact form → the Raspberry Pi endpoint, exposed over HTTPS by a Cloudflare Tunnel.
 // See server/README.md for the Pi side. Must be https:// — a static site served over
 // HTTPS cannot POST to a plain http:// address (browsers block it as mixed content).
-const ENDPOINT = 'https://api.kaispicer.com/api/contact';
+const ENDPOINT = 'https://api.kai-spicer.com/api/contact';
 
 const form = document.getElementById('contact-form');
 const status = document.getElementById('form-status');

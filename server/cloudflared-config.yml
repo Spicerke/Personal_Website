@@ -7,7 +7,7 @@ credentials-file: /etc/cloudflared/PASTE-TUNNEL-UUID-HERE.json
 ingress:
   # Cloudflare terminates TLS at the edge and forwards here over the tunnel.
   # The Flask app never needs a certificate of its own.
-  - hostname: api.kaispicer.com
+  - hostname: api.kai-spicer.com
     service: http://127.0.0.1:8080
   # Required: every ingress list must end with a catch-all.
   - service: http_status:404

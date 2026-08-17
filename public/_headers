@@ -1,0 +1,36 @@
+# Cloudflare Pages reads this file, applies the rules, and does not serve it.
+# Syntax: a URL pattern, then indented "Header: value" lines.
+
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  X-Frame-Options: DENY
+  Permissions-Policy: geolocation=(), microphone=(), camera=(), interest-cohort=()
+
+  # Report-Only on purpose. This policy is written to match what the site
+  # actually loads, but it has not been exercised in a browser yet, and a CSP
+  # that is even slightly wrong fails closed — blank résumé, dead form, no
+  # analytics. Report-Only logs violations to the console and changes nothing.
+  #
+  # To promote it: open every page (résumé and contact especially), submit the
+  # form, confirm the console shows no "[Report Only]" violations, then rename
+  # this header to Content-Security-Policy and redeploy.
+  #
+  #   default-src  nothing loads unless a directive below allows it
+  #   script-src   posthog's array.js, pdf.js from cdnjs
+  #   connect-src  posthog ingest, the Pi contact endpoint, the pdf.js fetch
+  #   style-src    'unsafe-inline' is required — the pages use inline style=""
+  #   frame-src    the native PDF viewer fallback on resume.html
+  #   worker-src   pdf.js runs its parser in a worker, often from a blob:
+  Content-Security-Policy-Report-Only: default-src 'self'; script-src 'self' https://us-assets.i.posthog.com https://cdnjs.cloudflare.com; connect-src 'self' https://us.i.posthog.com https://us-assets.i.posthog.com https://api.kai-spicer.com https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob:; frame-src 'self'; worker-src 'self' blob: https://cdnjs.cloudflare.com; object-src 'none'; base-uri 'self'; form-action 'none'; frame-ancestors 'none'
+
+# Fingerprinted-by-content assets these are not, so keep the cache short enough
+# that a redeploy is visible immediately.
+/*.html
+  Cache-Control: public, max-age=0, must-revalidate
+
+/images/*
+  Cache-Control: public, max-age=86400
+
+/Downloaders/*
+  Cache-Control: public, max-age=3600

@@ -1,4 +1,4 @@
-"""Contact-form endpoint for kaispicer.com.
+"""Contact-form endpoint for kai-spicer.com.
 
 Runs on the Raspberry Pi behind a Cloudflare Tunnel, which terminates TLS and
 forwards to this app on 127.0.0.1:8080. Nothing here is exposed to the LAN
@@ -99,7 +99,7 @@ def send_email(name: str, email: str, message: str, ip: str) -> None:
 
     msg = EmailMessage()
     msg["Subject"] = f"Portfolio contact — {name}"
-    msg["From"] = formataddr(("kaispicer.com", SMTP_USER))
+    msg["From"] = formataddr(("kai-spicer.com", SMTP_USER))
     msg["To"] = MAIL_TO
     # Reply goes to the sender, but the From stays our own address so the mail
     # is not rejected for spoofing a domain we do not control.
