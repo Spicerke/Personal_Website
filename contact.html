@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kai Spicer</title>
+<title>Contact &mdash; Kai Spicer</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500&display=swap" rel="stylesheet">
@@ -28,7 +28,7 @@
         </a>
       </div>
       <nav style="display:flex;align-items:center;gap:18px;font-family:'IBM Plex Mono',monospace;font-size:13px;flex-wrap:wrap;justify-content:flex-end;margin-left:auto">
-        <a href="index.html" style="color:var(--fg);text-decoration:none">about</a>
+        <a href="index.html" style="color:var(--muted);text-decoration:none">about</a>
         <div class="dropdown">
           <a href="experience.html" style="color:var(--muted);text-decoration:none">experience &#9662;</a>
             <div class="dropdown-panel">
@@ -51,28 +51,67 @@
             </div>
         </div>
         <a href="resume.html" style="color:var(--muted);text-decoration:none">resume</a>
-        <a href="contact.html" style="color:var(--muted);text-decoration:none">contact</a>
+        <a href="contact.html" style="color:var(--fg);text-decoration:none">contact</a>
       </nav>
     </div>
   </header>
 
-  <main style="flex:1;max-width:760px;width:100%;margin:0 auto;padding:72px 28px 96px;box-sizing:border-box">
-    <div style="display:flex;gap:34px;align-items:flex-start;flex-wrap:wrap-reverse;margin-bottom:20px">
-      <div style="flex:1 1 320px;min-width:0">
-        <h1 style="font-size:38px;font-weight:400;letter-spacing:-0.02em;line-height:1.15;margin:0 0 20px">Kai Spicer</h1>
-        <p style="font-size:19px;line-height:1.7;font-weight:300;margin:0;max-width:60ch;text-wrap:pretty">Computer Engineering senior at Columbia, headed for research engineer and ML engineering work. I spend most of my time on the part of machine learning that is really data engineering &mdash; pipelines, messy inputs, and models that have to survive contact with a real lab.</p>
-      </div>
-      <img src="images/portrait.jpg" alt="Kai Spicer" width="150" height="150" style="width:150px;height:150px;object-fit:cover;border-radius:4px;border:1px solid var(--line);flex:0 0 auto">
-    </div>
+  <main style="flex:1;max-width:760px;width:100%;margin:0 auto;padding:64px 28px 96px;box-sizing:border-box">
+    <h1 style="font-size:32px;font-weight:400;letter-spacing:-0.02em;margin:0 0 14px">Get in touch</h1>
+    <p style="font-size:19px;line-height:1.7;font-weight:300;margin:0 0 48px;max-width:56ch;text-wrap:pretty">Looking for research engineer and ML engineering roles. Send a note here, or reach me directly &mdash; either works.</p>
 
-    <p style="font-size:17px;line-height:1.75;margin:0 0 14px;max-width:64ch;text-wrap:pretty">Right now I'm a software engineering intern at <a href="https://www.l2labs.ai/" target="_blank" rel="noopener">L2 Labs</a> in NYC, fine-tuning models for data-interoperability pipelines. Before that: research assistant in Columbia's DirecT Lab, and a DOE SULI intern with PNNL's Radiological Materials Team, where I still work part-time.</p>
-    <p style="font-size:17px;line-height:1.75;margin:0 0 14px;max-width:64ch;text-wrap:pretty">This site exists because a r&eacute;sum&eacute; has no room for detail. Most of my research is unpublished or still under review, so here I write about what I actually built and why &mdash; as far as I'm cleared to. Outside of work: water polo, hiking, travel.</p>
-    <p style="font-size:17px;line-height:1.75;margin:0;max-width:64ch;text-wrap:pretty">Reach me at <a href="mailto:kes2246@columbia.edu">kes2246@columbia.edu</a>.</p>
+    <form id="contact-form" novalidate style="display:grid;gap:16px">
+      <!-- Fields and the contact card share one flex row with align-items:stretch,
+           so the card's bottom edge lands level with the bottom of the textarea.
+           The submit row sits outside that row, below both. -->
+      <div style="display:flex;flex-wrap:wrap;gap:44px;align-items:stretch">
+        <div style="flex:1 1 320px;min-width:0;display:grid;gap:16px;align-content:start">
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:16px">
+            <label style="display:grid;gap:7px">
+              <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted)">Name</span>
+              <input name="name" type="text" autocomplete="name" maxlength="120" required style="font-family:'IBM Plex Sans',sans-serif;font-size:16px;color:var(--fg);background:var(--bg);border:1px solid var(--line);border-radius:3px;padding:11px 12px;outline:none;width:100%;box-sizing:border-box">
+            </label>
+            <label style="display:grid;gap:7px">
+              <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted)">Email</span>
+              <input name="email" type="email" autocomplete="email" maxlength="254" required style="font-family:'IBM Plex Sans',sans-serif;font-size:16px;color:var(--fg);background:var(--bg);border:1px solid var(--line);border-radius:3px;padding:11px 12px;outline:none;width:100%;box-sizing:border-box">
+            </label>
+          </div>
+          <label style="display:grid;gap:7px">
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted)">Message</span>
+            <textarea name="message" rows="6" maxlength="5000" required style="font-family:'IBM Plex Sans',sans-serif;font-size:16px;color:var(--fg);background:var(--bg);border:1px solid var(--line);border-radius:3px;padding:11px 12px;outline:none;width:100%;box-sizing:border-box;line-height:1.6;resize:vertical"></textarea>
+          </label>
+        </div>
+
+        <aside style="flex:0 1 210px;min-width:0;display:grid;gap:34px;align-content:start;background:var(--card);border-radius:5px;padding:28px 20px;box-sizing:border-box">
+          <div style="display:grid;gap:5px">
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted)">Email</span>
+            <a href="mailto:kes2246@columbia.edu" style="font-size:15px;text-decoration:none;word-break:break-all">kes2246@columbia.edu</a>
+          </div>
+          <div style="display:grid;gap:5px">
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted)">LinkedIn</span>
+            <a href="https://www.linkedin.com/in/kailer-spicer" target="_blank" rel="noopener" style="font-size:15px;text-decoration:none">in/kailer-spicer &nearr;</a>
+          </div>
+          <div style="display:grid;gap:5px">
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted)">GitHub</span>
+            <a href="https://github.com/Spicerke" target="_blank" rel="noopener" style="font-size:15px;text-decoration:none">Spicerke &nearr;</a>
+          </div>
+        </aside>
+      </div>
+
+      <div class="hp" aria-hidden="true">
+        <label>Leave this field empty<input name="website" type="text" tabindex="-1" autocomplete="off"></label>
+      </div>
+      <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap">
+        <button type="submit" id="submit-btn" style="font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:0.04em;background:var(--fg);color:var(--bg);border:1px solid var(--fg);border-radius:3px;padding:11px 22px;cursor:pointer">send message</button>
+        <span id="form-status" role="status" aria-live="polite" style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--muted)"></span>
+      </div>
+    </form>
   </main>
 
   <footer style="border-top:1px solid var(--line)">
     <div style="max-width:760px;margin:0 auto;padding:18px 28px;font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted)">designed &amp; maintained by kai spicer</div>
   </footer>
 </div>
+<script src="contact.js"></script>
 </body>
 </html>

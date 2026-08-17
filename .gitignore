@@ -1,0 +1,7 @@
+.DS_Store
+
+# Server-side secrets and data — never commit the filled-in versions.
+server/.env
+server/*.jsonl
+server/__pycache__/
+server/.venv/

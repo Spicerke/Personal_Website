@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kai Spicer</title>
+<title>R&eacute;sum&eacute; &mdash; Kai Spicer</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500&display=swap" rel="stylesheet">
@@ -14,7 +14,7 @@
 <div style="font-family:'IBM Plex Sans',system-ui,sans-serif;background:var(--bg);color:var(--fg);min-height:100vh;display:flex;flex-direction:column">
 
   <header style="border-bottom:1px solid var(--line)">
-    <div style="max-width:760px;margin:0 auto;padding:20px 28px;display:flex;align-items:center;gap:22px;flex-wrap:wrap">
+    <div style="max-width:900px;margin:0 auto;padding:20px 28px;display:flex;align-items:center;gap:22px;flex-wrap:wrap">
       <a href="index.html" style="font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:0.1em;color:var(--fg);text-decoration:none">KAI SPICER</a>
       <div style="display:flex;align-items:center;gap:14px;color:var(--muted)">
         <a href="https://github.com/Spicerke" target="_blank" rel="noopener" title="GitHub" style="display:flex;color:inherit">
@@ -28,7 +28,7 @@
         </a>
       </div>
       <nav style="display:flex;align-items:center;gap:18px;font-family:'IBM Plex Mono',monospace;font-size:13px;flex-wrap:wrap;justify-content:flex-end;margin-left:auto">
-        <a href="index.html" style="color:var(--fg);text-decoration:none">about</a>
+        <a href="index.html" style="color:var(--muted);text-decoration:none">about</a>
         <div class="dropdown">
           <a href="experience.html" style="color:var(--muted);text-decoration:none">experience &#9662;</a>
             <div class="dropdown-panel">
@@ -50,29 +50,38 @@
               </div>
             </div>
         </div>
-        <a href="resume.html" style="color:var(--muted);text-decoration:none">resume</a>
+        <a href="resume.html" style="color:var(--fg);text-decoration:none">resume</a>
         <a href="contact.html" style="color:var(--muted);text-decoration:none">contact</a>
       </nav>
     </div>
   </header>
 
-  <main style="flex:1;max-width:760px;width:100%;margin:0 auto;padding:72px 28px 96px;box-sizing:border-box">
-    <div style="display:flex;gap:34px;align-items:flex-start;flex-wrap:wrap-reverse;margin-bottom:20px">
-      <div style="flex:1 1 320px;min-width:0">
-        <h1 style="font-size:38px;font-weight:400;letter-spacing:-0.02em;line-height:1.15;margin:0 0 20px">Kai Spicer</h1>
-        <p style="font-size:19px;line-height:1.7;font-weight:300;margin:0;max-width:60ch;text-wrap:pretty">Computer Engineering senior at Columbia, headed for research engineer and ML engineering work. I spend most of my time on the part of machine learning that is really data engineering &mdash; pipelines, messy inputs, and models that have to survive contact with a real lab.</p>
-      </div>
-      <img src="images/portrait.jpg" alt="Kai Spicer" width="150" height="150" style="width:150px;height:150px;object-fit:cover;border-radius:4px;border:1px solid var(--line);flex:0 0 auto">
+  <main style="flex:1;max-width:900px;width:100%;margin:0 auto;padding:48px 28px 80px;box-sizing:border-box">
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:14px;margin-bottom:14px;flex-wrap:wrap">
+      <span id="pdf-status" style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--muted)" role="status" aria-live="polite"></span>
+      <a href="Downloaders/Spicer_Resume.pdf" download class="dl">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"></path><path d="M7 11l5 5 5-5"></path><path d="M4 20h16"></path></svg>
+        resume.pdf
+      </a>
     </div>
 
-    <p style="font-size:17px;line-height:1.75;margin:0 0 14px;max-width:64ch;text-wrap:pretty">Right now I'm a software engineering intern at <a href="https://www.l2labs.ai/" target="_blank" rel="noopener">L2 Labs</a> in NYC, fine-tuning models for data-interoperability pipelines. Before that: research assistant in Columbia's DirecT Lab, and a DOE SULI intern with PNNL's Radiological Materials Team, where I still work part-time.</p>
-    <p style="font-size:17px;line-height:1.75;margin:0 0 14px;max-width:64ch;text-wrap:pretty">This site exists because a r&eacute;sum&eacute; has no room for detail. Most of my research is unpublished or still under review, so here I write about what I actually built and why &mdash; as far as I'm cleared to. Outside of work: water polo, hiking, travel.</p>
-    <p style="font-size:17px;line-height:1.75;margin:0;max-width:64ch;text-wrap:pretty">Reach me at <a href="mailto:kes2246@columbia.edu">kes2246@columbia.edu</a>.</p>
+    <!-- Rendered by resume.js into #pdf-pages. If that fails for any reason the
+         browser's own PDF viewer below is left in place, so the page always works. -->
+    <div id="pdf-pages" hidden></div>
+
+    <div id="pdf-native" style="position:relative;width:100%;height:1000px;border:1px solid var(--line);border-radius:4px;background:var(--card);overflow:hidden">
+      <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:32px;text-align:center">
+        <p style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--muted);margin:0">Your browser can't display the PDF inline.</p>
+        <a href="Downloaders/Spicer_Resume.pdf" download style="font-family:'IBM Plex Mono',monospace;font-size:13px">&darr; download resume.pdf</a>
+      </div>
+      <iframe src="Downloaders/Spicer_Resume.pdf#view=FitH" title="R&eacute;sum&eacute;" style="position:absolute;inset:0;width:100%;height:100%;border:0"></iframe>
+    </div>
   </main>
 
   <footer style="border-top:1px solid var(--line)">
-    <div style="max-width:760px;margin:0 auto;padding:18px 28px;font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted)">designed &amp; maintained by kai spicer</div>
+    <div style="max-width:900px;margin:0 auto;padding:18px 28px;font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted)">designed &amp; maintained by kai spicer</div>
   </footer>
 </div>
+<script type="module" src="resume.js"></script>
 </body>
 </html>
