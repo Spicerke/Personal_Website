@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>R&eacute;sum&eacute; &mdash; Kai Spicer</title>
+<title>PNNL &mdash; Kai Spicer</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500&display=swap" rel="stylesheet">
@@ -29,40 +29,33 @@
       </div>
       <nav style="display:flex;align-items:center;gap:18px;font-family:'IBM Plex Mono',monospace;font-size:13px;flex-wrap:wrap;justify-content:flex-end;margin-left:auto">
         <a href="index.html" style="color:var(--muted);text-decoration:none">about</a>
-        <a href="experience.html" style="color:var(--muted);text-decoration:none">experience</a>
+        <a href="experience.html" style="color:var(--fg);text-decoration:none">experience</a>
         <a href="projects.html" style="color:var(--muted);text-decoration:none">projects</a>
-        <a href="resume.html" style="color:var(--fg);text-decoration:none">resume</a>
+        <a href="resume.html" style="color:var(--muted);text-decoration:none">resume</a>
         <a href="contact.html" style="color:var(--muted);text-decoration:none">contact</a>
       </nav>
     </div>
   </header>
 
-  <main style="flex:1;max-width:760px;width:100%;margin:0 auto;padding:48px 28px 80px;box-sizing:border-box">
-    <div style="display:flex;justify-content:space-between;align-items:center;gap:14px;margin-bottom:14px;flex-wrap:wrap">
-      <span id="pdf-status" style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--muted)" role="status" aria-live="polite"></span>
-      <a href="Downloaders/Spicer_Resume.pdf?v=49d8c7f0" download class="dl">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"></path><path d="M7 11l5 5 5-5"></path><path d="M4 20h16"></path></svg>
-        resume.pdf
-      </a>
+  <main style="flex:1;max-width:760px;width:100%;margin:0 auto;padding:48px 28px 96px;box-sizing:border-box">
+    <a href="experience.html" style="font-family:'IBM Plex Mono',monospace;font-size:12px;text-decoration:none;display:inline-block;margin-bottom:26px">&larr; all experience</a>
+    <div style="display:flex;align-items:baseline;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:6px">
+      <h1 style="font-size:32px;font-weight:400;letter-spacing:-0.02em;margin:0">Pacific Northwest National Laboratory</h1>
+      <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--muted)">2025 &mdash; present</span>
     </div>
-
-    <!-- Rendered by resume.js into #pdf-pages. If that fails for any reason the
-         browser's own PDF viewer below is left in place, so the page always works. -->
-    <div id="pdf-pages" data-pdf="Downloaders/Spicer_Resume.pdf?v=49d8c7f0" hidden></div>
-
-    <div id="pdf-native" style="position:relative;width:100%;height:1000px;border:1px solid var(--line);border-radius:4px;background:var(--card);overflow:hidden">
-      <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:32px;text-align:center">
-        <p style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--muted);margin:0">Your browser can't display the PDF inline.</p>
-        <a href="Downloaders/Spicer_Resume.pdf?v=49d8c7f0" download style="font-family:'IBM Plex Mono',monospace;font-size:13px">&darr; download resume.pdf</a>
-      </div>
-      <iframe src="Downloaders/Spicer_Resume.pdf?v=49d8c7f0#view=FitH" title="R&eacute;sum&eacute;" style="position:absolute;inset:0;width:100%;height:100%;border:0"></iframe>
-    </div>
+    <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--muted);margin-bottom:32px">DOE SULI Intern &rarr; Technical Intern &middot; <a href="https://www.pnnl.gov/nuclear-sciences-groups" target="_blank" rel="noopener">Radiological Materials</a></div>
+    <h2 style="font-size:21px;font-weight:400;margin:44px 0 12px">ESTOMP input-card generator</h2>
+    <p style="font-size:17px;line-height:1.75;margin:0 0 16px;max-width:64ch;text-wrap:pretty">The team models the long-term behavior of roughly 50 million gallons of nuclear waste stored in underground tanks at Hanford. The simulator, ESTOMP, is powerful and written in Fortran in the early 2000s: input cards are long text files where one malformed line kills a run.</p>
+    <p style="font-size:17px;line-height:1.75;margin:0 0 16px;max-width:64ch;text-wrap:pretty">I wrote a Python GUI that collects parameters through a real interface and emits a valid input card. Less time lost to typos, fewer failed simulations, and a format that a new researcher can actually approach. The work ended in a poster presentation to the lab and a co-authored report.</p>
+    <p style="font-size:17px;line-height:1.75;margin:0 0 16px;max-width:64ch;text-wrap:pretty">The honest lesson was less about modeling than about legacy systems: messy formats, undocumented assumptions, and domain experts whose workflow you have to understand before you can improve it.</p>
+    <h2 style="font-size:21px;font-weight:400;margin:44px 0 12px">EPA 1315 data processing</h2>
+    <p style="font-size:17px;line-height:1.75;margin:0 0 16px;max-width:64ch;text-wrap:pretty">Continuing as a technical intern, I built the pipeline that turns raw EPA 1315 leach-test measurements into publication-ready output: a standardized input schema, a Python script that computes the derived values, and a dynamic Excel template covering every variation of the test.</p>
+    <p style="font-size:17px;line-height:1.75;margin:0;max-width:64ch;text-wrap:pretty">My mentor and I submitted it for the lab's formal software review so it can be used in live research &mdash; my first exposure to QA and code review in a regulated setting, and a genuinely useful one.</p>
   </main>
 
   <footer style="border-top:1px solid var(--line)">
     <div style="max-width:760px;margin:0 auto;padding:18px 28px;font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted)">designed &amp; maintained by kai spicer</div>
   </footer>
 </div>
-<script type="module" src="resume.js"></script>
 </body>
 </html>

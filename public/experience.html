@@ -29,27 +29,8 @@
       </div>
       <nav style="display:flex;align-items:center;gap:18px;font-family:'IBM Plex Mono',monospace;font-size:13px;flex-wrap:wrap;justify-content:flex-end;margin-left:auto">
         <a href="index.html" style="color:var(--muted);text-decoration:none">about</a>
-        <div class="dropdown">
-          <a href="experience.html" style="color:var(--fg);text-decoration:none">experience &#9662;</a>
-            <div class="dropdown-panel">
-              <div style="background:var(--bg);border:1px solid var(--line);border-radius:4px;overflow:hidden;box-shadow:0 12px 28px rgba(0,0,0,0.10)">
-                <a href="experience.html#l2labs" style="display:block;padding:11px 14px;color:var(--fg);text-decoration:none;border-bottom:1px solid var(--line);">L2 Labs</a>
-                <a href="experience.html#direct" style="display:block;padding:11px 14px;color:var(--fg);text-decoration:none;border-bottom:1px solid var(--line);">Columbia DirecT Lab</a>
-                <a href="experience.html#pnnl" style="display:block;padding:11px 14px;color:var(--fg);text-decoration:none;border-bottom:1px solid var(--line);">PNNL</a>
-                <a href="experience.html#publications" style="display:block;padding:11px 14px;color:var(--fg);text-decoration:none;">Publications</a>
-              </div>
-            </div>
-        </div>
-        <div class="dropdown">
-          <a href="projects.html" style="color:var(--muted);text-decoration:none">projects &#9662;</a>
-            <div class="dropdown-panel">
-              <div style="background:var(--bg);border:1px solid var(--line);border-radius:4px;overflow:hidden;box-shadow:0 12px 28px rgba(0,0,0,0.10)">
-                <a href="projects.html#claim-detection" style="display:block;padding:11px 14px;color:var(--fg);text-decoration:none;border-bottom:1px solid var(--line);">Claim Detection</a>
-                <a href="projects.html#http-server" style="display:block;padding:11px 14px;color:var(--fg);text-decoration:none;border-bottom:1px solid var(--line);">HTTP Server in C</a>
-                <a href="projects.html#free-throw" style="display:block;padding:11px 14px;color:var(--fg);text-decoration:none;">Free Throw Simulation</a>
-              </div>
-            </div>
-        </div>
+        <a href="experience.html" style="color:var(--fg);text-decoration:none">experience</a>
+        <a href="projects.html" style="color:var(--muted);text-decoration:none">projects</a>
         <a href="resume.html" style="color:var(--muted);text-decoration:none">resume</a>
         <a href="contact.html" style="color:var(--muted);text-decoration:none">contact</a>
       </nav>
@@ -58,50 +39,52 @@
 
   <main style="flex:1;max-width:760px;width:100%;margin:0 auto;padding:64px 28px 96px;box-sizing:border-box">
     <h1 style="font-size:32px;font-weight:400;letter-spacing:-0.02em;margin:0 0 16px">Work Experience</h1>
-    <p style="font-size:17px;line-height:1.75;color:var(--muted);margin:0 0 56px;max-width:62ch;text-wrap:pretty">Most of this work is unpublished, under review, or otherwise not public, so what follows is the level of detail I'm cleared to share. Ask me and I'll go deeper where I can.</p>
+    <p style="font-size:17px;line-height:1.75;color:var(--muted);margin:0 0 44px;max-width:62ch;text-wrap:pretty">Most of this work is unpublished, under review, or otherwise not public. Each page below goes as deep as I am cleared to &mdash; ask me and I will go further where I can.</p>
 
-    <article id="l2labs" style="scroll-margin-top:24px;margin-bottom:56px">
-      <div style="display:flex;align-items:baseline;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:6px">
-        <h2 style="font-size:24px;font-weight:400;margin:0">L2 Labs</h2>
-        <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--muted)">summer 2026 &middot; current</span>
-      </div>
-      <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--muted);margin-bottom:16px">Software Engineering Intern &middot; <a href="https://www.l2labs.ai/" target="_blank" rel="noopener">l2labs.ai</a></div>
-      <p style="font-size:17px;line-height:1.75;margin:0 0 14px;max-width:64ch;text-wrap:pretty">L2 Labs is an early-stage NYC startup working on data interoperability. My focus is fine-tuning their models, but on a team this small I touch everything from data prep to deployment &mdash; which is the point: it's the first place I've seen the whole path from a raw dataset to something a customer uses.</p>
-      <p style="font-size:17px;line-height:1.75;color:var(--muted);margin:0;max-width:64ch;text-wrap:pretty">Still early &mdash; I'll write up specifics here as they clear.</p>
-    </article>
-
-    <article id="direct" style="scroll-margin-top:24px;margin-bottom:56px">
-      <div style="display:flex;align-items:baseline;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:6px">
-        <h2 style="font-size:24px;font-weight:400;margin:0">Columbia DirecT Lab</h2>
-        <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--muted)">spring 2026</span>
-      </div>
-      <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--muted);margin-bottom:16px">Research Assistant &middot; <a href="https://www.columbia.edu/~yf2578/" target="_blank" rel="noopener">direct lab</a></div>
-
-      <h3 style="font-size:16px;font-weight:500;margin:0 0 8px">Comparing graph convolutional networks for mobility-aid recognition</h3>
-      <p style="font-size:17px;line-height:1.75;margin:0 0 14px;max-width:64ch;text-wrap:pretty">The dataset was 270 stock videos of people using mobility aids, and none of it was model-ready. I built the extraction pipeline: pull each video from a GCS bucket, run MediaPipe pose estimation for 17 body keypoints, window the sequences at 10s / 5s / 1s, then label and split into train and test as <span style="font-family:'IBM Plex Mono',monospace;font-size:14px">.npy</span> files.</p>
-      <p style="font-size:17px;line-height:1.75;margin:0 0 24px;max-width:64ch;text-wrap:pretty">Getting that data to load in the lab's existing GCN codebase &mdash; and in Colab, to keep compute cheap &mdash; took real surgery on both. Once it ran, I benchmarked three GCN architectures on accuracy and loss. The comparison is unpublished.</p>
-
-      <h3 style="font-size:16px;font-weight:500;margin:0 0 8px">Gait analysis</h3>
-      <p style="font-size:17px;line-height:1.75;margin:0 0 14px;max-width:64ch;text-wrap:pretty">A skeletal GCN is heavy for what we needed, so I asked whether hand-derived gait parameters could get close. After a literature review I extracted 16 features from the same pose data and trained six model families on them to classify mobility-aid type.</p>
-      <p style="font-size:17px;line-height:1.75;margin:0;max-width:64ch;text-wrap:pretty">That classifier is now running against real footage the lab collected of pedestrians crossing near campus. The goal is auto-labeling: find mobility-aid users in the wild, extract their pose data, and use it to train the next round of models.</p>
-    </article>
-
-    <article id="pnnl" style="scroll-margin-top:24px;margin-bottom:56px">
-      <div style="display:flex;align-items:baseline;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:6px">
-        <h2 style="font-size:24px;font-weight:400;margin:0">Pacific Northwest National Laboratory</h2>
-        <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--muted)">2025 &mdash; present</span>
-      </div>
-      <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--muted);margin-bottom:16px">DOE SULI Intern &rarr; Technical Intern &middot; <a href="https://www.pnnl.gov/nuclear-sciences-groups" target="_blank" rel="noopener">Radiological Materials</a></div>
-
-      <h3 style="font-size:16px;font-weight:500;margin:0 0 8px">ESTOMP input-card generator</h3>
-      <p style="font-size:17px;line-height:1.75;margin:0 0 14px;max-width:64ch;text-wrap:pretty">The team models the long-term behavior of roughly 50 million gallons of nuclear waste stored in underground tanks at Hanford. The simulator, ESTOMP, is powerful and written in Fortran in the early 2000s: input cards are long text files where one malformed line kills a run.</p>
-      <p style="font-size:17px;line-height:1.75;margin:0 0 14px;max-width:64ch;text-wrap:pretty">I wrote a Python GUI that collects parameters through a real interface and emits a valid input card. Less time lost to typos, fewer failed simulations, and a format that a new researcher can actually approach. The work ended in a poster presentation to the lab and a co-authored report.</p>
-      <p style="font-size:17px;line-height:1.75;margin:0 0 24px;max-width:64ch;text-wrap:pretty">The honest lesson was less about modeling than about legacy systems: messy formats, undocumented assumptions, and domain experts whose workflow you have to understand before you can improve it.</p>
-
-      <h3 style="font-size:16px;font-weight:500;margin:0 0 8px">EPA 1315 data processing</h3>
-      <p style="font-size:17px;line-height:1.75;margin:0 0 14px;max-width:64ch;text-wrap:pretty">Continuing as a technical intern, I built the pipeline that turns raw EPA 1315 leach-test measurements into publication-ready output: a standardized input schema, a Python script that computes the derived values, and a dynamic Excel template covering every variation of the test.</p>
-      <p style="font-size:17px;line-height:1.75;margin:0;max-width:64ch;text-wrap:pretty">My mentor and I submitted it for the lab's formal software review so it can be used in live research &mdash; my first exposure to QA and code review in a regulated setting, and a genuinely useful one.</p>
-    </article>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:18px;margin-bottom:64px">
+      <a href="experience-l2-labs.html" class="card" style="display:flex;flex-direction:column;gap:12px;border:1px solid var(--line);border-radius:6px;padding:26px 24px 22px;text-decoration:none;color:var(--fg);background:var(--bg)">
+        <div style="display:flex;align-items:baseline;justify-content:space-between;gap:14px">
+          <h2 style="font-size:21px;font-weight:400;margin:0">L2 Labs</h2>
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);white-space:nowrap">summer 2026 &middot; current</span>
+        </div>
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--muted)">Software Engineering Intern</div>
+        <p style="font-size:16px;line-height:1.65;color:var(--muted);margin:0;text-wrap:pretty">Fine-tuning models inside an early-stage data-interoperability pipeline &mdash; and, on a team this small, everything around them.</p>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);margin-top:auto;padding-top:6px">
+          <span style="border:1px solid var(--line);border-radius:2px;padding:4px 9px">fine-tuning</span>
+          <span style="border:1px solid var(--line);border-radius:2px;padding:4px 9px">data pipelines</span>
+          <span style="border:1px solid var(--line);border-radius:2px;padding:4px 9px">product</span>
+        </div>
+        <div style="display:flex;justify-content:flex-end;border-top:1px solid var(--line);padding-top:14px;font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--accent)">read more &rarr;</div>
+      </a>
+      <a href="experience-direct-lab.html" class="card" style="display:flex;flex-direction:column;gap:12px;border:1px solid var(--line);border-radius:6px;padding:26px 24px 22px;text-decoration:none;color:var(--fg);background:var(--bg)">
+        <div style="display:flex;align-items:baseline;justify-content:space-between;gap:14px">
+          <h2 style="font-size:21px;font-weight:400;margin:0">Columbia DirecT Lab</h2>
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);white-space:nowrap">spring 2026</span>
+        </div>
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--muted)">Research Assistant</div>
+        <p style="font-size:16px;line-height:1.65;color:var(--muted);margin:0;text-wrap:pretty">Built the pose-extraction pipeline behind the lab's mobility-aid work, benchmarked three GCNs, then trained a lighter gait-parameter classifier.</p>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);margin-top:auto;padding-top:6px">
+          <span style="border:1px solid var(--line);border-radius:2px;padding:4px 9px">MediaPipe</span>
+          <span style="border:1px solid var(--line);border-radius:2px;padding:4px 9px">GCNs</span>
+          <span style="border:1px solid var(--line);border-radius:2px;padding:4px 9px">PyTorch</span>
+        </div>
+        <div style="display:flex;justify-content:flex-end;border-top:1px solid var(--line);padding-top:14px;font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--accent)">read more &rarr;</div>
+      </a>
+      <a href="experience-pnnl.html" class="card" style="display:flex;flex-direction:column;gap:12px;border:1px solid var(--line);border-radius:6px;padding:26px 24px 22px;text-decoration:none;color:var(--fg);background:var(--bg)">
+        <div style="display:flex;align-items:baseline;justify-content:space-between;gap:14px">
+          <h2 style="font-size:21px;font-weight:400;margin:0">PNNL</h2>
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);white-space:nowrap">2025 &mdash; present</span>
+        </div>
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--muted)">DOE SULI &rarr; Technical Intern</div>
+        <p style="font-size:16px;line-height:1.65;color:var(--muted);margin:0;text-wrap:pretty">Tooling for Hanford tank-waste modeling: an ESTOMP input-card generator and an EPA 1315 leach-test processing pipeline.</p>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);margin-top:auto;padding-top:6px">
+          <span style="border:1px solid var(--line);border-radius:2px;padding:4px 9px">Python</span>
+          <span style="border:1px solid var(--line);border-radius:2px;padding:4px 9px">GUI</span>
+          <span style="border:1px solid var(--line);border-radius:2px;padding:4px 9px">legacy formats</span>
+        </div>
+        <div style="display:flex;justify-content:flex-end;border-top:1px solid var(--line);padding-top:14px;font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--accent)">read more &rarr;</div>
+      </a>
+    </div>
 
     <section id="publications" style="scroll-margin-top:24px;border-top:1px solid var(--line);padding-top:40px">
       <h2 style="font-size:24px;font-weight:400;margin:0 0 8px">Publications</h2>

@@ -29,27 +29,8 @@
       </div>
       <nav style="display:flex;align-items:center;gap:18px;font-family:'IBM Plex Mono',monospace;font-size:13px;flex-wrap:wrap;justify-content:flex-end;margin-left:auto">
         <a href="index.html" style="color:var(--muted);text-decoration:none">about</a>
-        <div class="dropdown">
-          <a href="experience.html" style="color:var(--muted);text-decoration:none">experience &#9662;</a>
-            <div class="dropdown-panel">
-              <div style="background:var(--bg);border:1px solid var(--line);border-radius:4px;overflow:hidden;box-shadow:0 12px 28px rgba(0,0,0,0.10)">
-                <a href="experience.html#l2labs" style="display:block;padding:11px 14px;color:var(--fg);text-decoration:none;border-bottom:1px solid var(--line);">L2 Labs</a>
-                <a href="experience.html#direct" style="display:block;padding:11px 14px;color:var(--fg);text-decoration:none;border-bottom:1px solid var(--line);">Columbia DirecT Lab</a>
-                <a href="experience.html#pnnl" style="display:block;padding:11px 14px;color:var(--fg);text-decoration:none;border-bottom:1px solid var(--line);">PNNL</a>
-                <a href="experience.html#publications" style="display:block;padding:11px 14px;color:var(--fg);text-decoration:none;">Publications</a>
-              </div>
-            </div>
-        </div>
-        <div class="dropdown">
-          <a href="projects.html" style="color:var(--fg);text-decoration:none">projects &#9662;</a>
-            <div class="dropdown-panel">
-              <div style="background:var(--bg);border:1px solid var(--line);border-radius:4px;overflow:hidden;box-shadow:0 12px 28px rgba(0,0,0,0.10)">
-                <a href="projects.html#claim-detection" style="display:block;padding:11px 14px;color:var(--fg);text-decoration:none;border-bottom:1px solid var(--line);">Claim Detection</a>
-                <a href="projects.html#http-server" style="display:block;padding:11px 14px;color:var(--fg);text-decoration:none;border-bottom:1px solid var(--line);">HTTP Server in C</a>
-                <a href="projects.html#free-throw" style="display:block;padding:11px 14px;color:var(--fg);text-decoration:none;">Free Throw Simulation</a>
-              </div>
-            </div>
-        </div>
+        <a href="experience.html" style="color:var(--muted);text-decoration:none">experience</a>
+        <a href="projects.html" style="color:var(--fg);text-decoration:none">projects</a>
         <a href="resume.html" style="color:var(--muted);text-decoration:none">resume</a>
         <a href="contact.html" style="color:var(--muted);text-decoration:none">contact</a>
       </nav>
@@ -58,55 +39,59 @@
 
   <main style="flex:1;max-width:760px;width:100%;margin:0 auto;padding:64px 28px 96px;box-sizing:border-box">
     <h1 style="font-size:32px;font-weight:400;letter-spacing:-0.02em;margin:0 0 16px">Projects</h1>
-    <p style="font-size:17px;line-height:1.75;color:var(--muted);margin:0 0 56px;max-width:62ch;text-wrap:pretty">Some for class, some for fun. A few repos stay private because the assignments are still in use &mdash; ask and I'll walk you through the code directly.</p>
+    <p style="font-size:17px;line-height:1.75;color:var(--muted);margin:0 0 44px;max-width:62ch;text-wrap:pretty">Some for class, some for fun. A few repos stay private because the assignments are still in use &mdash; each page below has the full write-up, and I'm happy to walk through the code directly.</p>
 
-    <article id="claim-detection" style="scroll-margin-top:24px;margin-bottom:56px">
-      <div style="display:flex;align-items:baseline;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:6px">
-        <h2 style="font-size:24px;font-weight:400;margin:0">Claim Detection</h2>
-        <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--muted)">nlp &middot; serving</span>
-      </div>
-      <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--muted);margin-bottom:16px"><a href="https://github.com/Spicerke/Claim_Detection" target="_blank" rel="noopener">github.com/Spicerke/Claim_Detection &nearr;</a></div>
-      <p style="font-size:17px;line-height:1.75;margin:0 0 14px;max-width:64ch;text-wrap:pretty">A take-home from a technical interview: decide whether a given sentence is a factual claim. I fine-tuned DistilBERT &mdash; small enough to train locally &mdash; on a mix of two datasets. ClaimBuster (political debate sentences) skews heavily toward non-claims, so I balanced it with FEVER's 185k Wikipedia-derived claims until the label distribution was even. Around 90% accuracy on a held-out set.</p>
-      <p style="font-size:17px;line-height:1.75;margin:0 0 14px;max-width:64ch;text-wrap:pretty">A model isn't a product, so I wrapped it: a FastAPI service exposing one endpoint, guarded by input-length validation and a rate limiter, with a plain HTML/CSS/JS frontend and the whole thing Dockerized.</p>
-      <p style="font-size:17px;line-height:1.75;margin:0;max-width:64ch;text-wrap:pretty">Then I load-tested it with Locust to see where it broke. It held a high request volume at a low error rate with roughly 200ms average response time.</p>
-      <figure style="margin:26px 0 0">
-        <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px">
-          <div style="height:230px"><img src="images/claim-input.png" alt="claim input screen" class="shot" loading="lazy"></div>
-          <div style="height:230px"><img src="images/claim-result.png" alt="prediction result screen" class="shot" loading="lazy"></div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:18px">
+      <a href="project-claim-detection.html" class="card" style="display:flex;flex-direction:column;gap:12px;border:1px solid var(--line);border-radius:6px;padding:26px 24px 22px;text-decoration:none;color:var(--fg);background:var(--bg)">
+        <div style="display:flex;align-items:baseline;justify-content:space-between;gap:14px">
+          <h2 style="font-size:21px;font-weight:400;margin:0">Claim Detection</h2>
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);white-space:nowrap">nlp &middot; serving</span>
         </div>
-        <figcaption style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--muted);margin-top:10px">The frontend: submit a sentence, get a claim / not-a-claim verdict.</figcaption>
-      </figure>
-    </article>
-
-    <article id="http-server" style="scroll-margin-top:24px;margin-bottom:56px">
-      <div style="display:flex;align-items:baseline;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:6px">
-        <h2 style="font-size:24px;font-weight:400;margin:0">HTTP Server in C</h2>
-        <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--muted)">systems</span>
-      </div>
-      <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--muted);margin-bottom:16px">private &mdash; active coursework &middot; COMS 3157 Advanced Programming</div>
-      <p style="font-size:17px;line-height:1.75;margin:0 0 14px;max-width:64ch;text-wrap:pretty">An iterative TCP web server built on the raw socket API &mdash; <span style="font-family:'IBM Plex Mono',monospace;font-size:14px">socket()</span>, <span style="font-family:'IBM Plex Mono',monospace;font-size:14px">bind()</span>, <span style="font-family:'IBM Plex Mono',monospace;font-size:14px">listen()</span> &mdash; serving static files and query results from a database we also wrote in C. Requests are handled to completion one at a time; the database connection is opened at startup so no query pays for a fresh handshake.</p>
-      <p style="font-size:17px;line-height:1.75;margin:0 0 14px;max-width:64ch;text-wrap:pretty">The database parses a binary file with <span style="font-family:'IBM Plex Mono',monospace;font-size:14px">fread</span> into a linked list of records held in memory, and searches it by passing a comparison callback to a generic traversal routine &mdash; data traversal decoupled from business logic, with a matching free callback so the lifecycle stays leak-free.</p>
-      <p style="font-size:17px;line-height:1.75;margin:0;max-width:64ch;text-wrap:pretty">Most of the work was defensive: validating the request line and HTTP version, rejecting URIs that don't start with <span style="font-family:'IBM Plex Mono',monospace;font-size:14px">/</span>, returning the right status code for missing files and permission errors, and logging every failure with the client's IP.</p>
-    </article>
-
-    <article id="free-throw" style="scroll-margin-top:24px;margin-bottom:0">
-      <div style="display:flex;align-items:baseline;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:6px">
-        <h2 style="font-size:24px;font-weight:400;margin:0">Free Throw Simulation</h2>
-        <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--muted)">simulation &middot; physics</span>
-      </div>
-      <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--muted);margin-bottom:16px">private &mdash; academic integrity &middot; Python, NumPy, Matplotlib</div>
-      <p style="font-size:17px;line-height:1.75;margin:0 0 14px;max-width:64ch;text-wrap:pretty">A physics-based free throw simulator built for a computer simulation course. Shots are modeled in two dimensions &mdash; front-facing, with lateral deviation assumed negligible &mdash; under standard Earth constants, with aerodynamic drag applied through the drag equation and backspin treated as constant across the flight.</p>
-      <p style="font-size:17px;line-height:1.75;margin:0 0 14px;max-width:64ch;text-wrap:pretty">Rim physics and backboard reflections are deliberately left out; a geometric clearance condition decides whether the shot scores. That keeps the model general enough to work for a basketball hoop or a trash can.</p>
-      <p style="font-size:17px;line-height:1.75;margin:0;max-width:64ch;text-wrap:pretty">The front end takes release angle, velocity, shooter height and backspin per shot, with a settings page for the environment and the ball: shoot on the moon or underwater, change hoop height and distance, change ball mass and radius, and watch the trajectory animate against a static plot after each attempt.</p>
-      <figure style="margin:26px 0 0">
-        <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px">
-          <div style="height:210px"><img src="images/ft-params.png" alt="shot parameter panel" class="shot" loading="lazy"></div>
-          <div style="height:210px"><img src="images/ft-settings.png" alt="environment and ball settings panel" class="shot" loading="lazy"></div>
-          <div style="height:210px"><img src="images/ft-plot.png" alt="trajectory plot" class="shot" loading="lazy"></div>
+        <p style="font-size:16px;line-height:1.65;color:var(--muted);margin:0;text-wrap:pretty">DistilBERT fine-tuned to ~90% accuracy on balanced ClaimBuster + FEVER data, wrapped in a rate-limited FastAPI service and load-tested at ~200ms.</p>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);margin-top:auto;padding-top:6px">
+          <span style="border:1px solid var(--line);border-radius:2px;padding:4px 9px">DistilBERT</span>
+          <span style="border:1px solid var(--line);border-radius:2px;padding:4px 9px">FastAPI</span>
+          <span style="border:1px solid var(--line);border-radius:2px;padding:4px 9px">Docker</span>
+          <span style="border:1px solid var(--line);border-radius:2px;padding:4px 9px">Locust</span>
         </div>
-        <figcaption style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--muted);margin-top:10px">Shot parameters, the environment settings page, and the resulting trajectory.</figcaption>
-      </figure>
-    </article>
+        <div style="display:flex;align-items:baseline;justify-content:space-between;gap:14px;border-top:1px solid var(--line);padding-top:14px;font-family:'IBM Plex Mono',monospace;font-size:12px">
+          <span style="color:var(--muted)">live demo &middot; public repo</span>
+          <span style="color:var(--accent)">read more &rarr;</span>
+        </div>
+      </a>
+      <a href="server-writeup.html" target="_blank" rel="noopener" class="card" style="display:flex;flex-direction:column;gap:12px;border:1px solid var(--line);border-radius:6px;padding:26px 24px 22px;text-decoration:none;color:var(--fg);background:var(--bg)">
+        <div style="display:flex;align-items:baseline;justify-content:space-between;gap:14px">
+          <h2 style="font-size:21px;font-weight:400;margin:0">HTTP Server in C</h2>
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);white-space:nowrap">systems &middot; live demo</span>
+        </div>
+        <p style="font-size:16px;line-height:1.65;color:var(--muted);margin:0;text-wrap:pretty">An iterative TCP server on the raw socket API, serving static files and records from a database also written in C. The write-up is served by the server itself.</p>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);margin-top:auto;padding-top:6px">
+          <span style="border:1px solid var(--line);border-radius:2px;padding:4px 9px">C</span>
+          <span style="border:1px solid var(--line);border-radius:2px;padding:4px 9px">sockets</span>
+          <span style="border:1px solid var(--line);border-radius:2px;padding:4px 9px">linked lists</span>
+        </div>
+        <div style="display:flex;align-items:baseline;justify-content:space-between;gap:14px;border-top:1px solid var(--line);padding-top:14px;font-family:'IBM Plex Mono',monospace;font-size:12px">
+          <span style="color:var(--muted)">served by the server &nearr;</span>
+          <span style="color:var(--accent)">read more &rarr;</span>
+        </div>
+      </a>
+      <a href="project-free-throw.html" class="card" style="display:flex;flex-direction:column;gap:12px;border:1px solid var(--line);border-radius:6px;padding:26px 24px 22px;text-decoration:none;color:var(--fg);background:var(--bg)">
+        <div style="display:flex;align-items:baseline;justify-content:space-between;gap:14px">
+          <h2 style="font-size:21px;font-weight:400;margin:0">Free Throw Simulation</h2>
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);white-space:nowrap">simulation &middot; physics</span>
+        </div>
+        <p style="font-size:16px;line-height:1.65;color:var(--muted);margin:0;text-wrap:pretty">A 2D projectile model with drag and constant backspin, parameterized over angle, velocity, gravity and ball geometry &mdash; shoot the same free throw on the moon.</p>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);margin-top:auto;padding-top:6px">
+          <span style="border:1px solid var(--line);border-radius:2px;padding:4px 9px">Python</span>
+          <span style="border:1px solid var(--line);border-radius:2px;padding:4px 9px">NumPy</span>
+          <span style="border:1px solid var(--line);border-radius:2px;padding:4px 9px">Matplotlib</span>
+        </div>
+        <div style="display:flex;align-items:baseline;justify-content:space-between;gap:14px;border-top:1px solid var(--line);padding-top:14px;font-family:'IBM Plex Mono',monospace;font-size:12px">
+          <span style="color:var(--muted)">private</span>
+          <span style="color:var(--accent)">read more &rarr;</span>
+        </div>
+      </a>
+    </div>
   </main>
 
   <footer style="border-top:1px solid var(--line)">

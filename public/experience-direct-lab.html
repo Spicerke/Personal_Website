@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>R&eacute;sum&eacute; &mdash; Kai Spicer</title>
+<title>Columbia DirecT Lab &mdash; Kai Spicer</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500&display=swap" rel="stylesheet">
@@ -29,40 +29,32 @@
       </div>
       <nav style="display:flex;align-items:center;gap:18px;font-family:'IBM Plex Mono',monospace;font-size:13px;flex-wrap:wrap;justify-content:flex-end;margin-left:auto">
         <a href="index.html" style="color:var(--muted);text-decoration:none">about</a>
-        <a href="experience.html" style="color:var(--muted);text-decoration:none">experience</a>
+        <a href="experience.html" style="color:var(--fg);text-decoration:none">experience</a>
         <a href="projects.html" style="color:var(--muted);text-decoration:none">projects</a>
-        <a href="resume.html" style="color:var(--fg);text-decoration:none">resume</a>
+        <a href="resume.html" style="color:var(--muted);text-decoration:none">resume</a>
         <a href="contact.html" style="color:var(--muted);text-decoration:none">contact</a>
       </nav>
     </div>
   </header>
 
-  <main style="flex:1;max-width:760px;width:100%;margin:0 auto;padding:48px 28px 80px;box-sizing:border-box">
-    <div style="display:flex;justify-content:space-between;align-items:center;gap:14px;margin-bottom:14px;flex-wrap:wrap">
-      <span id="pdf-status" style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--muted)" role="status" aria-live="polite"></span>
-      <a href="Downloaders/Spicer_Resume.pdf?v=49d8c7f0" download class="dl">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"></path><path d="M7 11l5 5 5-5"></path><path d="M4 20h16"></path></svg>
-        resume.pdf
-      </a>
+  <main style="flex:1;max-width:760px;width:100%;margin:0 auto;padding:48px 28px 96px;box-sizing:border-box">
+    <a href="experience.html" style="font-family:'IBM Plex Mono',monospace;font-size:12px;text-decoration:none;display:inline-block;margin-bottom:26px">&larr; all experience</a>
+    <div style="display:flex;align-items:baseline;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:6px">
+      <h1 style="font-size:32px;font-weight:400;letter-spacing:-0.02em;margin:0">Columbia DirecT Lab</h1>
+      <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--muted)">spring 2026</span>
     </div>
-
-    <!-- Rendered by resume.js into #pdf-pages. If that fails for any reason the
-         browser's own PDF viewer below is left in place, so the page always works. -->
-    <div id="pdf-pages" data-pdf="Downloaders/Spicer_Resume.pdf?v=49d8c7f0" hidden></div>
-
-    <div id="pdf-native" style="position:relative;width:100%;height:1000px;border:1px solid var(--line);border-radius:4px;background:var(--card);overflow:hidden">
-      <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:32px;text-align:center">
-        <p style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--muted);margin:0">Your browser can't display the PDF inline.</p>
-        <a href="Downloaders/Spicer_Resume.pdf?v=49d8c7f0" download style="font-family:'IBM Plex Mono',monospace;font-size:13px">&darr; download resume.pdf</a>
-      </div>
-      <iframe src="Downloaders/Spicer_Resume.pdf?v=49d8c7f0#view=FitH" title="R&eacute;sum&eacute;" style="position:absolute;inset:0;width:100%;height:100%;border:0"></iframe>
-    </div>
+    <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--muted);margin-bottom:32px">Research Assistant &middot; <a href="https://www.columbia.edu/~yf2578/" target="_blank" rel="noopener">direct lab</a></div>
+    <h2 style="font-size:21px;font-weight:400;margin:44px 0 12px">Comparing graph convolutional networks for mobility-aid recognition</h2>
+    <p style="font-size:17px;line-height:1.75;margin:0 0 16px;max-width:64ch;text-wrap:pretty">The dataset was 270 stock videos of people using mobility aids, and none of it was model-ready. I built the extraction pipeline: pull each video from a GCS bucket, run MediaPipe pose estimation for 17 body keypoints, window the sequences at 10s / 5s / 1s, then label and split into train and test as <span style="font-family:'IBM Plex Mono',monospace;font-size:14px">.npy</span> files.</p>
+    <p style="font-size:17px;line-height:1.75;margin:0 0 16px;max-width:64ch;text-wrap:pretty">Getting that data to load in the lab's existing GCN codebase &mdash; and in Colab, to keep compute cheap &mdash; took real surgery on both. Once it ran, I benchmarked three GCN architectures on accuracy and loss. The comparison is unpublished.</p>
+    <h2 style="font-size:21px;font-weight:400;margin:44px 0 12px">Gait analysis</h2>
+    <p style="font-size:17px;line-height:1.75;margin:0 0 16px;max-width:64ch;text-wrap:pretty">A skeletal GCN is heavy for what we needed, so I asked whether hand-derived gait parameters could get close. After a literature review I extracted 16 features from the same pose data and trained six model families on them to classify mobility-aid type.</p>
+    <p style="font-size:17px;line-height:1.75;margin:0;max-width:64ch;text-wrap:pretty">That classifier is now running against real footage the lab collected of pedestrians crossing near campus. The goal is auto-labeling: find mobility-aid users in the wild, extract their pose data, and use it to train the next round of models.</p>
   </main>
 
   <footer style="border-top:1px solid var(--line)">
     <div style="max-width:760px;margin:0 auto;padding:18px 28px;font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted)">designed &amp; maintained by kai spicer</div>
   </footer>
 </div>
-<script type="module" src="resume.js"></script>
 </body>
 </html>

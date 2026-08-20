@@ -4,22 +4,45 @@ Plain HTML/CSS/JS. No build step, no framework. Live at
 [kai-spicer.com](https://kai-spicer.com) on Cloudflare Pages.
 
 ```
-public/                 ← everything here is published; nothing else is
-  index.html            About / landing
-  experience.html       Work experience + publications (#l2labs #direct #pnnl #publications)
-  projects.html         Projects (#claim-detection #http-server #free-throw)
-  resume.html           Inline PDF reader + download button
-  contact.html          Contact form + direct links
-  styles.css            Design tokens, dropdown hover, form focus, image styles
-  analytics.js          PostHog init + custom event wiring (loaded on every page)
-  contact.js            Contact form submit handler (contact.html only)
-  resume.js             PDF.js résumé reader (resume.html only)
-  _headers              Security + cache headers, applied by Pages
-  images/               Screenshots and portrait
-  Downloaders/          Résumé, CV, SULI report PDFs
+public/                       ← everything here is published; nothing else is
+  index.html                  About / landing
+  experience.html             Card index + publications (#publications)
+    experience-l2-labs.html
+    experience-direct-lab.html
+    experience-pnnl.html
+  projects.html               Card index
+    project-claim-detection.html
+    project-free-throw.html
+    server-writeup.html       HTTP Server in C — self-contained, meant to be served BY that server
+  resume.html                 Inline PDF reader + download button
+  contact.html                Contact form + direct links
+  styles.css                  Tokens, card/hover states, form focus, image styles
+  analytics.js                PostHog init + custom event wiring (every page)
+  contact.js                  Contact form submit handler (contact.html only)
+  resume.js                   PDF.js résumé reader (resume.html only)
+  _headers                    Security + cache headers, applied by Pages
+  images/                     Screenshots and portrait
+  Downloaders/                Résumé, CV, SULI report PDFs
 
-server/                 Raspberry Pi contact endpoint — see server/README.md
+server/                       Raspberry Pi contact endpoint — see server/README.md
 ```
+
+Experience and projects are **card indexes**: each card is a single `<a class="card">`
+in a `repeat(auto-fit, minmax(320px, 1fr))` grid, linking to its own detail page.
+The card's box lives in the inline `style` on that anchor, not in `styles.css` —
+layout inline, stylesheet for interactive state only. That is the design's own
+convention, and it means a stale cached stylesheet can never strip the border or
+let the global link underline bleed into the card text.
+A card has five slots — title + date, role/tag line, one-sentence blurb, tech chips,
+and a footer rule with `read more →`. `margin-top:auto` on the chips pins the footer
+so cards of different text lengths still align along the bottom. To add one, copy a
+card and change the five slots.
+
+`server-writeup.html` is deliberately self-contained — no external CSS, fonts, or
+scripts — because it is meant to be served by the C server itself as the demo. Its
+log pane polls `/log` and falls back to sample lines when that route is absent, which
+is what happens on Pages. Point the projects card at `http://your-host:8080/writeup.html`
+once the server is running somewhere.
 
 To work on it locally:
 
@@ -163,7 +186,8 @@ mixed content. Full setup in [`server/README.md`](server/README.md).
 
 ## Adding a section
 
-Copy an existing `<article>` on `experience.html` or `projects.html`, give it an
-`id`, and add a matching entry to the `.dropdown-panel` list in the header of
-**all five** pages — the nav is duplicated per page, and it's the one thing to
-keep in sync.
+Copy a card in `experience.html` or `projects.html`, change its five slots, and
+add the matching detail page. The nav is flat and duplicated per page, so adding
+a *top-level* page means updating the `<nav>` in every file — that's the one
+thing to keep in sync. Detail pages need no nav change; they just highlight
+their parent.

@@ -11,7 +11,10 @@
 // the CDN is blocked, the version drifts, or anything else throws, the native
 // viewer is simply left alone.
 
-const PDF_URL = 'Downloaders/Spicer_Resume.pdf';
+// Path comes from the container's data-pdf so it carries the content hash the
+// generator stamps on; hardcoding it here would defeat the cache-busting.
+const PDF_URL = document.getElementById('pdf-pages').dataset.pdf
+  || 'Downloaders/Spicer_Resume.pdf';
 const PDFJS = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/6.2.108';
 
 const pagesEl = document.getElementById('pdf-pages');

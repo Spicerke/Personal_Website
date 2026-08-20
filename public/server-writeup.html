@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<!--
+  HTTP Server in C — project write-up. Served BY the C server as /writeup.html.
+  Self-contained: no external CSS, fonts, or libraries, so every byte of this page
+  comes off disk and through the socket.
+
+  Two things the server provides:
+    GET /writeup.html   this file
+    GET /log            plain text, one line per request:
+                        12:04:01 127.0.0.1 200 GET /writeup.html HTTP/1.1
+    GET /records?id=42  record lookup out of the linked-list database
+
+  The log pane polls /log every 2s (same origin — no CORS needed) and falls back to
+  sample lines if the endpoint is not there yet.
+-->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HTTP Server in C — Kai Spicer</title>
+<style>
+  :root {
+    --bg: #faf8f3; --fg: #191813; --muted: #6b6558;
+    --line: #e4ded1; --accent: oklch(0.48 0.07 150); --card: #f4f1e8;
+    --ok: oklch(0.48 0.07 150); --warn: #b8862a; --err: #a8443a;
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+    --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; background: var(--bg); color: var(--fg);
+               -webkit-font-smoothing: antialiased; }
+  body { font-family: var(--sans); font-size: 16px; line-height: 1.75; }
+  a { color: var(--accent); text-underline-offset: 3px; }
+  a:hover { text-decoration: none; }
+  code { font-family: var(--mono); font-size: 0.88em; }
+
+  header.bar {
+    border-bottom: 1px solid var(--line);
+    padding: 18px 28px;
+    display: flex; align-items: center; gap: 18px; flex-wrap: wrap;
+    font-family: var(--mono); font-size: 13px;
+  }
+  header.bar .home { color: var(--fg); text-decoration: none;
+                     letter-spacing: 0.1em; }
+  header.bar .served {
+    margin-left: auto; display: flex; align-items: center; gap: 8px;
+    font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--muted);
+  }
+  .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--ok); }
+
+  .wrap {
+    max-width: 1180px; margin: 0 auto; padding: 40px 28px 72px;
+    display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 32px;
+    align-items: start;
+  }
+  @media (max-width: 900px) { .wrap { grid-template-columns: minmax(0, 1fr); } }
+
+  h1 { font-size: 30px; font-weight: 400; letter-spacing: -0.02em; margin: 0 0 6px; }
+  .sub { font-family: var(--mono); font-size: 12px; color: var(--muted); margin: 0 0 30px; }
+  h2 { font-size: 20px; font-weight: 400; margin: 40px 0 10px; }
+  p { margin: 0 0 14px; max-width: 66ch; text-wrap: pretty; }
+
+  /* record lookup */
+  .lookup { border: 1px solid var(--line); border-radius: 5px; overflow: hidden; margin: 22px 0 0; }
+  .lookup-head {
+    display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    flex-wrap: wrap; background: var(--card); border-bottom: 1px solid var(--line);
+    padding: 10px 14px; font-family: var(--mono); font-size: 11px;
+    letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted);
+  }
+  form { display: flex; gap: 8px; flex-wrap: wrap; padding: 14px; }
+  input {
+    font-family: var(--mono); font-size: 13px; color: var(--fg); background: var(--bg);
+    border: 1px solid var(--line); border-radius: 3px; padding: 8px 10px; width: 120px;
+  }
+  input:focus { outline: none; border-color: var(--accent); }
+  button {
+    font-family: var(--mono); font-size: 13px; background: var(--fg); color: var(--bg);
+    border: 1px solid var(--fg); border-radius: 3px; padding: 8px 16px; cursor: pointer;
+  }
+  table { border-collapse: collapse; width: 100%; font-family: var(--mono); font-size: 12.5px; }
+  th {
+    text-align: left; font-weight: 500; font-size: 10.5px; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--muted);
+    border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
+    padding: 8px 12px 8px 14px;
+  }
+  td { border-bottom: 1px solid var(--line); padding: 9px 12px 9px 14px; }
+  tr:last-child td { border-bottom: none; }
+  .hit td { background: var(--card); }
+  .resp {
+    font-family: var(--mono); font-size: 12px; color: var(--muted);
+    background: var(--card); padding: 13px 15px; white-space: pre-wrap;
+    border-top: 1px solid var(--line);
+  }
+  .resp strong { color: var(--fg); font-weight: 500; }
+
+  /* log pane */
+  aside {
+    position: sticky; top: 24px;
+    border: 1px solid var(--line); border-radius: 6px; overflow: hidden;
+  }
+  .log-head {
+    display: flex; align-items: center; justify-content: space-between; gap: 10px;
+    background: var(--card); border-bottom: 1px solid var(--line); padding: 11px 14px;
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--muted);
+  }
+  .log-head button {
+    background: none; color: var(--muted); border: 1px solid var(--line);
+    font-size: 11px; padding: 4px 9px; letter-spacing: 0;
+  }
+  #log { height: 620px; overflow: auto; padding: 6px 14px; }
+  .entry {
+    display: flex; flex-direction: column; gap: 1px; padding: 8px 0;
+    border-bottom: 1px solid var(--line); font-family: var(--mono);
+    font-size: 12px; line-height: 1.5;
+  }
+  .entry:last-child { border-bottom: none; }
+  .entry .row { display: flex; gap: 10px; align-items: baseline; }
+  .entry .time, .entry .ip { color: var(--muted); }
+  .entry .ip { margin-left: auto; }
+  .entry .req { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .s2 { color: var(--ok); }
+  .s4 { color: var(--warn); }
+  .s5 { color: var(--err); }
+  .legend {
+    display: flex; gap: 12px; flex-wrap: wrap; align-items: center;
+    border-top: 1px solid var(--line); padding: 9px 14px;
+    font-family: var(--mono); font-size: 11px; color: var(--muted);
+  }
+  .legend span.k { display: flex; align-items: center; gap: 5px; }
+  .legend i { width: 6px; height: 6px; border-radius: 50%; display: block; }
+  .note {
+    border-top: 1px solid var(--line); padding: 9px 14px;
+    font-family: var(--mono); font-size: 11px; color: var(--muted); line-height: 1.6;
+  }
+
+  footer {
+    border-top: 1px solid var(--line); margin-top: 44px; padding: 16px 28px;
+    font-family: var(--mono); font-size: 11px; color: var(--muted);
+  }
+</style>
+</head>
+<body>
+
+<header class="bar">
+  <!-- On the deployed site these are index.html / projects.html; in this project the
+       pages are the .dc.html files, so the links point there. -->
+  <a class="home" href="index.html">KAI SPICER</a>
+  <a href="projects.html">← all projects</a>
+  <span class="served"><span class="dot"></span>served by kai's C server · 200 OK</span>
+</header>
+
+<div class="wrap">
+
+  <main>
+    <h1>HTTP Server in C</h1>
+    <p class="sub">COMS 3157 Advanced Programming · private repo · you are reading this off my server</p>
+
+    <p>An iterative TCP web server built on the raw socket API — <code>socket()</code>,
+    <code>bind()</code>, <code>listen()</code>, <code>accept()</code> — serving static files and
+    query results from a database also written in C. Requests are handled to completion one at a
+    time; the database opens at startup, so no query pays for a fresh handshake.</p>
+
+    <p>The code has to stay private while the assignment is in use, so this page is the artifact
+    instead. Every byte of it came off disk and through a socket my server owns, and the log on
+    the right is that server recording you reading it.</p>
+
+    <h2>Request handling</h2>
+    <p>Each connection is read until the request line is complete, then validated before anything
+    touches the filesystem: the method, the HTTP version, and a URI that must begin with
+    <code>/</code>. Anything malformed gets a 400 and never becomes a path lookup.</p>
+    <p>Valid paths resolve against the document root. A missing file is a 404; a file the process
+    cannot read is a 403 — distinguished by <code>errno</code>, not by guessing. Every response,
+    including the failures, is logged with the client IP.</p>
+
+    <h2>The database</h2>
+    <p>The database parses a binary file with <code>fread</code> into a linked list of records held
+    in memory. Searching walks the list with a comparison callback passed in by the caller, so
+    traversal is decoupled from business logic, and a matching free callback keeps the record
+    lifecycle leak-free.</p>
+    <p>What is in it: this site's own content — one fixed-width record per project and publication.
+    Query one and the server walks the list and writes the matching row back as HTML.</p>
+
+    <div class="lookup">
+      <div class="lookup-head">
+        <span>record lookup</span>
+        <span>GET /records?id=</span>
+      </div>
+      <form action="/records" method="get">
+        <input type="text" name="id" value="42" aria-label="record id">
+        <button type="submit">query</button>
+      </form>
+      <table>
+        <thead>
+          <tr><th>id</th><th>title</th><th>kind</th><th>year</th></tr>
+        </thead>
+        <tbody>
+          <tr class="hit"><td>42</td><td>http-server-in-c</td><td>project</td><td>2026</td></tr>
+          <tr><td>43</td><td>claim-detection</td><td>project</td><td>2026</td></tr>
+          <tr><td>44</td><td>free-throw-sim</td><td>project</td><td>2025</td></tr>
+          <tr><td>45</td><td>estomp-input-cards</td><td>publication</td><td>2025</td></tr>
+        </tbody>
+      </table>
+      <div class="resp"><strong>HTTP/1.1 200 OK</strong>
+Content-Type: text/html
+Content-Length: 2317
+Connection: close
+
+1 record matched · list walked in 0.4ms · 512 bytes read via fread</div>
+    </div>
+
+    <h2>What it taught me</h2>
+    <p>Almost all of the work was defensive. The happy path — parse, open, write — was a day; the
+    rest was every way a client can be wrong, and making sure a bad request costs the server a log
+    line instead of a crash.</p>
+  </main>
+
+  <aside>
+    <div class="log-head">
+      <span>Request log</span>
+      <button type="button" id="clear">clear</button>
+    </div>
+    <div id="log"></div>
+    <div class="legend">
+      <span class="k"><i style="background:var(--ok)"></i>2xx</span>
+      <span class="k"><i style="background:var(--warn)"></i>4xx</span>
+      <span class="k"><i style="background:var(--err)"></i>5xx</span>
+    </div>
+    <div class="note" id="note">polling /log every 2s</div>
+  </aside>
+
+</div>
+
+<footer>
+  Static file, read off disk and written straight to the socket.
+  Malformed request → 400 · missing file → 404 · unreadable file → 403 · all logged with client IP.
+</footer>
+
+<script>
+// Log pane: polls the server's /log endpoint (plain text, one request per line:
+// "12:04:01 127.0.0.1 200 GET /writeup.html HTTP/1.1"). Same origin, so no CORS.
+var LOG_PATH = '/log';
+var POLL_MS = 2000;
+
+var SAMPLE = [
+  '12:04:01 127.0.0.1 200 GET /writeup.html HTTP/1.1',
+  '12:04:03 127.0.0.1 200 GET /records?id=42 HTTP/1.1',
+  '12:04:07 127.0.0.1 404 GET /nope.html HTTP/1.1',
+  '12:04:11 127.0.0.1 403 GET /private HTTP/1.1',
+  '12:04:15 127.0.0.1 400 GET nope HTTP/1.1',
+  '12:04:22 127.0.0.1 200 GET /log HTTP/1.1'
+];
+
+var logEl = document.getElementById('log');
+var noteEl = document.getElementById('note');
+var cleared = false;
+
+function statusClass(code) {
+  return code.charAt(0) === '2' ? 's2' : code.charAt(0) === '4' ? 's4'
+       : code.charAt(0) === '5' ? 's5' : '';
+}
+
+function render(lines) {
+  logEl.textContent = '';
+  lines.slice(-60).reverse().forEach(function (line) {
+    var cols = line.trim().split(/\s+/);
+    var time = cols[0] || '', ip = cols[1] || '', code = cols[2] || '';
+    var req = cols.slice(3).join(' ');
+
+    var entry = document.createElement('div');
+    entry.className = 'entry';
+
+    var row = document.createElement('div');
+    row.className = 'row';
+    var s = document.createElement('span');
+    s.className = statusClass(code);
+    s.textContent = code;
+    var t = document.createElement('span');
+    t.className = 'time';
+    t.textContent = time;
+    var i = document.createElement('span');
+    i.className = 'ip';
+    i.textContent = ip;
+    row.appendChild(s); row.appendChild(t); row.appendChild(i);
+
+    var r = document.createElement('div');
+    r.className = 'req';
+    r.textContent = req;
+
+    entry.appendChild(row); entry.appendChild(r);
+    logEl.appendChild(entry);
+  });
+}
+
+function poll() {
+  fetch(LOG_PATH, { cache: 'no-store' })
+    .then(function (res) { if (!res.ok) throw new Error(res.status); return res.text(); })
+    .then(function (text) {
+      cleared = false;
+      noteEl.textContent = 'polling ' + LOG_PATH + ' every 2s';
+      render(text.trim().split('\n').filter(Boolean));
+    })
+    .catch(function () {
+      noteEl.textContent = LOG_PATH + ' not reachable — sample lines shown';
+      if (!cleared) render(SAMPLE);
+    });
+}
+
+document.getElementById('clear').addEventListener('click', function () {
+  cleared = true;
+  logEl.textContent = '';
+});
+
+render(SAMPLE);
+poll();
+setInterval(poll, POLL_MS);
+</script>
+
+</body>
+</html>

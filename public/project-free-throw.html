@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>R&eacute;sum&eacute; &mdash; Kai Spicer</title>
+<title>Free Throw Simulation &mdash; Kai Spicer</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500&display=swap" rel="stylesheet">
@@ -30,39 +30,39 @@
       <nav style="display:flex;align-items:center;gap:18px;font-family:'IBM Plex Mono',monospace;font-size:13px;flex-wrap:wrap;justify-content:flex-end;margin-left:auto">
         <a href="index.html" style="color:var(--muted);text-decoration:none">about</a>
         <a href="experience.html" style="color:var(--muted);text-decoration:none">experience</a>
-        <a href="projects.html" style="color:var(--muted);text-decoration:none">projects</a>
-        <a href="resume.html" style="color:var(--fg);text-decoration:none">resume</a>
+        <a href="projects.html" style="color:var(--fg);text-decoration:none">projects</a>
+        <a href="resume.html" style="color:var(--muted);text-decoration:none">resume</a>
         <a href="contact.html" style="color:var(--muted);text-decoration:none">contact</a>
       </nav>
     </div>
   </header>
 
-  <main style="flex:1;max-width:760px;width:100%;margin:0 auto;padding:48px 28px 80px;box-sizing:border-box">
-    <div style="display:flex;justify-content:space-between;align-items:center;gap:14px;margin-bottom:14px;flex-wrap:wrap">
-      <span id="pdf-status" style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--muted)" role="status" aria-live="polite"></span>
-      <a href="Downloaders/Spicer_Resume.pdf?v=49d8c7f0" download class="dl">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"></path><path d="M7 11l5 5 5-5"></path><path d="M4 20h16"></path></svg>
-        resume.pdf
-      </a>
+  <main style="flex:1;max-width:760px;width:100%;margin:0 auto;padding:48px 28px 96px;box-sizing:border-box">
+    <a href="projects.html" style="font-family:'IBM Plex Mono',monospace;font-size:12px;text-decoration:none;display:inline-block;margin-bottom:26px">&larr; all projects</a>
+    <div style="display:flex;align-items:baseline;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:6px">
+      <h1 style="font-size:32px;font-weight:400;letter-spacing:-0.02em;margin:0">Free Throw Simulation</h1>
+      <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--muted)">simulation &middot; physics</span>
     </div>
-
-    <!-- Rendered by resume.js into #pdf-pages. If that fails for any reason the
-         browser's own PDF viewer below is left in place, so the page always works. -->
-    <div id="pdf-pages" data-pdf="Downloaders/Spicer_Resume.pdf?v=49d8c7f0" hidden></div>
-
-    <div id="pdf-native" style="position:relative;width:100%;height:1000px;border:1px solid var(--line);border-radius:4px;background:var(--card);overflow:hidden">
-      <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:32px;text-align:center">
-        <p style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--muted);margin:0">Your browser can't display the PDF inline.</p>
-        <a href="Downloaders/Spicer_Resume.pdf?v=49d8c7f0" download style="font-family:'IBM Plex Mono',monospace;font-size:13px">&darr; download resume.pdf</a>
+    <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--muted);margin-bottom:32px">private &mdash; academic integrity &middot; Python, NumPy, Matplotlib</div>
+    <p style="font-size:17px;line-height:1.75;margin:0 0 16px;max-width:64ch;text-wrap:pretty">A physics-based free throw simulator built for a computer simulation course.</p>
+    <h2 style="font-size:21px;font-weight:400;margin:44px 0 12px">The model</h2>
+    <p style="font-size:17px;line-height:1.75;margin:0 0 16px;max-width:64ch;text-wrap:pretty">Shots are modeled in two dimensions &mdash; front-facing, with lateral deviation assumed negligible &mdash; under standard Earth constants, with aerodynamic drag applied through the drag equation and backspin treated as constant across the flight.</p>
+    <p style="font-size:17px;line-height:1.75;margin:0 0 16px;max-width:64ch;text-wrap:pretty">Rim physics and backboard reflections are deliberately left out; a geometric clearance condition decides whether the shot scores. That keeps the model general enough to work for a basketball hoop or a trash can.</p>
+    <h2 style="font-size:21px;font-weight:400;margin:44px 0 12px">The interface</h2>
+    <p style="font-size:17px;line-height:1.75;margin:0 0 16px;max-width:64ch;text-wrap:pretty">The front end takes release angle, velocity, shooter height and backspin per shot, with a settings page for the environment and the ball: shoot on the moon or underwater, change hoop height and distance, change ball mass and radius, and watch the trajectory animate against a static plot after each attempt.</p>
+    <figure style="margin:24px 0 0">
+      <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px">
+        <div style="height:210px"><img src="images/ft-params.png" alt="shot parameter panel" class="shot" loading="lazy"></div>
+        <div style="height:210px"><img src="images/ft-settings.png" alt="environment and ball settings panel" class="shot" loading="lazy"></div>
+        <div style="height:210px"><img src="images/ft-plot.png" alt="trajectory plot" class="shot" loading="lazy"></div>
       </div>
-      <iframe src="Downloaders/Spicer_Resume.pdf?v=49d8c7f0#view=FitH" title="R&eacute;sum&eacute;" style="position:absolute;inset:0;width:100%;height:100%;border:0"></iframe>
-    </div>
+      <figcaption style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--muted);margin-top:10px">Shot parameters, the environment settings page, and the resulting trajectory.</figcaption>
+    </figure>
   </main>
 
   <footer style="border-top:1px solid var(--line)">
     <div style="max-width:760px;margin:0 auto;padding:18px 28px;font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted)">designed &amp; maintained by kai spicer</div>
   </footer>
 </div>
-<script type="module" src="resume.js"></script>
 </body>
 </html>
