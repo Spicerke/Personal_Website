@@ -41,55 +41,30 @@
     <h1 style="font-size:32px;font-weight:400;letter-spacing:-0.02em;margin:0 0 16px">Projects</h1>
     <p style="font-size:17px;line-height:1.75;color:var(--muted);margin:0 0 44px;max-width:62ch;text-wrap:pretty">Some for class, some for fun. A few repos stay private because the assignments are still in use &mdash; each page below has the full write-up, and I'm happy to walk through the code directly.</p>
 
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:18px">
-      <a href="project-claim-detection.html" class="card" style="display:flex;flex-direction:column;gap:12px;border:1px solid var(--line);border-radius:6px;padding:26px 24px 22px;text-decoration:none;color:var(--fg);background:var(--bg)">
-        <div style="display:flex;align-items:baseline;justify-content:space-between;gap:14px">
-          <h2 style="font-size:21px;font-weight:400;margin:0">Claim Detection</h2>
-          <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);white-space:nowrap">nlp &middot; serving</span>
+    <div style="display:flex;flex-direction:column;gap:1px;background:var(--line);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+      <a href="project-claim-detection.html" class="row" style="background:var(--bg);display:grid;grid-template-columns:150px minmax(0,1fr) 80px;gap:26px;padding:22px 4px;text-decoration:none;color:var(--fg);align-items:baseline">
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--muted)">nlp &middot; serving<div style="font-size:11px;margin-top:4px">live demo &middot; public repo</div></div>
+        <div>
+          <div style="font-size:19px;margin-bottom:4px">Claim Detection</div>
+          <div style="font-size:15px;line-height:1.6;color:var(--muted);text-wrap:pretty">DistilBERT fine-tuned to ~90% accuracy on balanced ClaimBuster + FEVER data, wrapped in a rate-limited FastAPI service and load-tested at ~200ms.</div>
         </div>
-        <p style="font-size:16px;line-height:1.65;color:var(--muted);margin:0;text-wrap:pretty">DistilBERT fine-tuned to ~90% accuracy on balanced ClaimBuster + FEVER data, wrapped in a rate-limited FastAPI service and load-tested at ~200ms.</p>
-        <div style="display:flex;gap:8px;flex-wrap:wrap;font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);margin-top:auto;padding-top:6px">
-          <span style="border:1px solid var(--line);border-radius:2px;padding:4px 9px">DistilBERT</span>
-          <span style="border:1px solid var(--line);border-radius:2px;padding:4px 9px">FastAPI</span>
-          <span style="border:1px solid var(--line);border-radius:2px;padding:4px 9px">Docker</span>
-          <span style="border:1px solid var(--line);border-radius:2px;padding:4px 9px">Locust</span>
-        </div>
-        <div style="display:flex;align-items:baseline;justify-content:space-between;gap:14px;border-top:1px solid var(--line);padding-top:14px;font-family:'IBM Plex Mono',monospace;font-size:12px">
-          <span style="color:var(--muted)">live demo &middot; public repo</span>
-          <span style="color:var(--accent)">read more &rarr;</span>
-        </div>
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--accent);text-align:right">read &rarr;</span>
       </a>
-      <a href="server-writeup.html" target="_blank" rel="noopener" class="card" style="display:flex;flex-direction:column;gap:12px;border:1px solid var(--line);border-radius:6px;padding:26px 24px 22px;text-decoration:none;color:var(--fg);background:var(--bg)">
-        <div style="display:flex;align-items:baseline;justify-content:space-between;gap:14px">
-          <h2 style="font-size:21px;font-weight:400;margin:0">HTTP Server in C</h2>
-          <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);white-space:nowrap">systems &middot; live demo</span>
+      <a href="server-writeup.html" target="_blank" rel="noopener" class="row" style="background:var(--bg);display:grid;grid-template-columns:150px minmax(0,1fr) 80px;gap:26px;padding:22px 4px;text-decoration:none;color:var(--fg);align-items:baseline">
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--muted)">systems &middot; live demo<div style="font-size:11px;margin-top:4px">served by the server &nearr;</div></div>
+        <div>
+          <div style="font-size:19px;margin-bottom:4px">HTTP Server in C</div>
+          <div style="font-size:15px;line-height:1.6;color:var(--muted);text-wrap:pretty">An iterative TCP server on the raw socket API, serving static files and records from a database also written in C. The write-up is served by the server itself.</div>
         </div>
-        <p style="font-size:16px;line-height:1.65;color:var(--muted);margin:0;text-wrap:pretty">An iterative TCP server on the raw socket API, serving static files and records from a database also written in C. The write-up is served by the server itself.</p>
-        <div style="display:flex;gap:8px;flex-wrap:wrap;font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);margin-top:auto;padding-top:6px">
-          <span style="border:1px solid var(--line);border-radius:2px;padding:4px 9px">C</span>
-          <span style="border:1px solid var(--line);border-radius:2px;padding:4px 9px">sockets</span>
-          <span style="border:1px solid var(--line);border-radius:2px;padding:4px 9px">linked lists</span>
-        </div>
-        <div style="display:flex;align-items:baseline;justify-content:space-between;gap:14px;border-top:1px solid var(--line);padding-top:14px;font-family:'IBM Plex Mono',monospace;font-size:12px">
-          <span style="color:var(--muted)">served by the server &nearr;</span>
-          <span style="color:var(--accent)">read more &rarr;</span>
-        </div>
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--accent);text-align:right">read &rarr;</span>
       </a>
-      <a href="project-free-throw.html" class="card" style="display:flex;flex-direction:column;gap:12px;border:1px solid var(--line);border-radius:6px;padding:26px 24px 22px;text-decoration:none;color:var(--fg);background:var(--bg)">
-        <div style="display:flex;align-items:baseline;justify-content:space-between;gap:14px">
-          <h2 style="font-size:21px;font-weight:400;margin:0">Free Throw Simulation</h2>
-          <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);white-space:nowrap">simulation &middot; physics</span>
+      <a href="project-free-throw.html" class="row" style="background:var(--bg);display:grid;grid-template-columns:150px minmax(0,1fr) 80px;gap:26px;padding:22px 4px;text-decoration:none;color:var(--fg);align-items:baseline">
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--muted)">simulation &middot; physics<div style="font-size:11px;margin-top:4px">private</div></div>
+        <div>
+          <div style="font-size:19px;margin-bottom:4px">Free Throw Simulation</div>
+          <div style="font-size:15px;line-height:1.6;color:var(--muted);text-wrap:pretty">A 2D projectile model with drag and constant backspin, parameterized over angle, velocity, gravity and ball geometry &mdash; shoot the same free throw on the moon.</div>
         </div>
-        <p style="font-size:16px;line-height:1.65;color:var(--muted);margin:0;text-wrap:pretty">A 2D projectile model with drag and constant backspin, parameterized over angle, velocity, gravity and ball geometry &mdash; shoot the same free throw on the moon.</p>
-        <div style="display:flex;gap:8px;flex-wrap:wrap;font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);margin-top:auto;padding-top:6px">
-          <span style="border:1px solid var(--line);border-radius:2px;padding:4px 9px">Python</span>
-          <span style="border:1px solid var(--line);border-radius:2px;padding:4px 9px">NumPy</span>
-          <span style="border:1px solid var(--line);border-radius:2px;padding:4px 9px">Matplotlib</span>
-        </div>
-        <div style="display:flex;align-items:baseline;justify-content:space-between;gap:14px;border-top:1px solid var(--line);padding-top:14px;font-family:'IBM Plex Mono',monospace;font-size:12px">
-          <span style="color:var(--muted)">private</span>
-          <span style="color:var(--accent)">read more &rarr;</span>
-        </div>
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--accent);text-align:right">read &rarr;</span>
       </a>
     </div>
   </main>

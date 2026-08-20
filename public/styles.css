@@ -32,12 +32,10 @@ input:focus, textarea:focus { border-color: var(--accent); }
   overflow: hidden;
 }
 
-/* Index cards — experience + projects.
-   The box itself is inline on the <a> (design convention: layout inline,
-   stylesheet for state only), so a stale cached stylesheet can never strip
-   the border or let the global link underline leak into the card. */
-.card { transition: border-color 120ms ease; }
-.card:hover { border-color: var(--accent); }
+/* List rows on the experience + projects index pages.
+   Layout is inline on each <a>; this is the hover state, plus the mobile
+   collapse — which needs !important precisely because the grid is inline. */
+.row:hover { background: var(--card); }
 
 /* Project screenshots */
 .shot {
@@ -68,4 +66,5 @@ input:focus, textarea:focus { border-color: var(--accent); }
 
 @media (max-width: 640px) {
   h1 { font-size: 28px !important; }
+  .row { grid-template-columns: minmax(0, 1fr) !important; gap: 6px !important; }
 }
