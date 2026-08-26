@@ -64,6 +64,7 @@ input:focus, textarea:focus { border-color: var(--accent); }
 }
 .dl:hover { color: var(--fg); border-color: var(--muted); }
 
+
 @media (max-width: 640px) {
   h1 { font-size: 28px !important; }
   .row { grid-template-columns: minmax(0, 1fr) !important; gap: 6px !important; }
