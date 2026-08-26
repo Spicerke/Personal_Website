@@ -40,15 +40,17 @@
   <main style="flex:1;max-width:760px;width:100%;margin:0 auto;padding:48px 28px 96px;box-sizing:border-box">
     <a href="projects.html" style="font-family:'IBM Plex Mono',monospace;font-size:12px;text-decoration:none;display:inline-block;margin-bottom:26px">&larr; all projects</a>
     <div style="display:flex;align-items:baseline;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:6px">
-      <h1 style="font-size:32px;font-weight:400;letter-spacing:-0.02em;margin:0">Claim Detection</h1>
-      <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--muted)">nlp &middot; serving</span>
+      <h1 style="font-size:32px;font-weight:400;letter-spacing:-0.02em;margin:0"><a href="https://spicerke.github.io/Claim_Detection/" target="_blank" rel="noopener">Claim Detection</a></h1>
+      <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--muted)">nlp, fine-tuning &middot; serving</span>
     </div>
-    <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--muted);margin-bottom:32px"><a href="https://spicerke.github.io/Claim_Detection/" target="_blank" rel="noopener">try it live &nearr;</a> &middot; <a href="https://github.com/Spicerke/Claim_Detection" target="_blank" rel="noopener">github.com/Spicerke/Claim_Detection &nearr;</a></div>
-    <p style="font-size:17px;line-height:1.75;margin:0 0 16px;max-width:64ch;text-wrap:pretty">A take-home from a technical interview: decide whether a given sentence is a factual claim.</p>
+    <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--muted);margin-bottom:32px">Source code: <a href="https://github.com/Spicerke/Claim_Detection" target="_blank" rel="noopener">github.com/Spicerke/Claim_Detection &nearr;</a></div>
+    <p style="font-size:17px;line-height:1.75;margin:0 0 16px;max-width:64ch;text-wrap:pretty">This project was built as a taken home exam for an interview project, the task was to fine tune a claim detection model and make it deployment ready.</p>
     <h2 style="font-size:21px;font-weight:400;margin:44px 0 12px">Data</h2>
-    <p style="font-size:17px;line-height:1.75;margin:0 0 16px;max-width:64ch;text-wrap:pretty">I fine-tuned DistilBERT &mdash; small enough to train locally &mdash; on a mix of two datasets. ClaimBuster (political debate sentences) skews heavily toward non-claims, so I balanced it with FEVER's 185k Wikipedia-derived claims until the label distribution was even. Around 90% accuracy on a held-out set.</p>
-    <h2 style="font-size:21px;font-weight:400;margin:44px 0 12px">Serving</h2>
-    <p style="font-size:17px;line-height:1.75;margin:0 0 16px;max-width:64ch;text-wrap:pretty">A model isn't a product, so I wrapped it: a FastAPI service exposing one endpoint, guarded by input-length validation and a rate limiter, with a plain HTML/CSS/JS frontend and the whole thing Dockerized.</p>
+    <p style="font-size:17px;line-height:1.75;margin:0 0 16px;max-width:64ch;text-wrap:pretty">The most importnant part of any ML model is the data that it is trained on, to ensure that I had an equal represntation of claims and non-claims I sampled from two datasets <a href="https://zenodo.org/records/3836810" target="_blank" rel="noopener">ClaimBuster</a> & <a href="https://fever.ai/dataset/fever.html" target="_blank" rel="noopener">Feverclaims</a> making sure that I had an equal number of both samples. This allowed my model to see a wide variety of examples of how both claims and opinons look.</p>
+    <h2 style="font-size:21px;font-weight:400;margin:44px 0 12px">Model</h2>
+    <p style="font-size:17px;line-height:1.75;margin:0 0 16px;max-width:64ch;text-wrap:pretty">Once the data was selected the next step was to choose what model to train, beacause I was tasked with a classifcition task that I wanted to train locally I choose a small BERT model <em>Distilbert</em>. This model was locally trained on my macbook and achived a 94% accuracy on the validation set.</p>
+    <h2 style="font-size:21px;font-weight:400;margin:44px 0 12px">Architecture</h2>
+    <p style="font-size:17px;line-height:1.75;margin:0;max-width:64ch;text-wrap:pretty">Once the model was trained I needed a way for users to interact with it, for inference I wrapped the model in a fastAPI endpoint that could be used for inference, to interact with this endpoint I sent a post request from my frontend via Flask that allowed the user to input there sentance and returned wheather or not it was a claim (pictured below). To save on proccesing time and power a local cache was also saved to save computations on already inputed sentances. For a full architecure digram and description check out the README of the github.</p>
     <figure style="margin:24px 0 0">
       <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px">
         <div style="height:230px"><img src="images/claim-input.png" alt="claim input screen" class="shot" loading="lazy"></div>
@@ -56,8 +58,8 @@
       </div>
       <figcaption style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--muted);margin-top:10px">Submit a sentence, get a claim / not-a-claim verdict. <a href="https://spicerke.github.io/Claim_Detection/" target="_blank" rel="noopener">Try it yourself &nearr;</a></figcaption>
     </figure>
-    <h2 style="font-size:21px;font-weight:400;margin:44px 0 12px">Load testing</h2>
-    <p style="font-size:17px;line-height:1.75;margin:0;max-width:64ch;text-wrap:pretty">Then I load-tested it with Locust to see where it broke. It held a high request volume at a low error rate with roughly 200ms average response time.</p>
+    <h2 style="font-size:21px;font-weight:400;margin:44px 0 12px">Serving</h2>
+    <p style="font-size:17px;line-height:1.75;margin:0;max-width:64ch;text-wrap:pretty">The final step of this project was to allow it to be served on the internet as a public demo, due to cost constraints I didn't want to pay to host the model but thankfully I have a personal Raseberry PI 5 that I host some random scripts on with pleanty of space to host this backend so both the FastAPI endpoint and the model weights are stored on my Pi served through a cloudflair tunnel for security purposes. For the frontend Github pages was used for easy and free hosting. This rasberry PI currently lives in my apartment closet so if any of my servers are down it's likley due to my janky backend solutions.</p>
   </main>
 
   <footer style="border-top:1px solid var(--line)">
