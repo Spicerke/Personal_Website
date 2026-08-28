@@ -1,10 +1,13 @@
-# Cloudflare Pages reads this file, applies the rules, and does not serve it.
+# Cloudflare reads this file, applies the rules, and does not serve it.
+# Supported natively by both Pages and Workers static assets.
 # Syntax: a URL pattern, then indented "Header: value" lines.
 
 /*
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
-  X-Frame-Options: DENY
+  # SAMEORIGIN, not DENY: resume.html frames its own PDF as the fallback
+  # viewer, and DENY blocks same-origin framing too.
+  X-Frame-Options: SAMEORIGIN
   Permissions-Policy: geolocation=(), microphone=(), camera=(), interest-cohort=()
 
   # Report-Only on purpose. This policy is written to match what the site
@@ -22,7 +25,7 @@
   #   style-src    'unsafe-inline' is required — the pages use inline style=""
   #   frame-src    the native PDF viewer fallback on resume.html
   #   worker-src   pdf.js runs its parser in a worker, often from a blob:
-  Content-Security-Policy-Report-Only: default-src 'self'; script-src 'self' https://us-assets.i.posthog.com https://cdnjs.cloudflare.com; connect-src 'self' https://us.i.posthog.com https://us-assets.i.posthog.com https://api.kai-spicer.com https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob:; frame-src 'self'; worker-src 'self' blob: https://cdnjs.cloudflare.com; object-src 'none'; base-uri 'self'; form-action 'none'; frame-ancestors 'none'
+  Content-Security-Policy-Report-Only: default-src 'self'; script-src 'self' https://us-assets.i.posthog.com https://cdnjs.cloudflare.com; connect-src 'self' https://us.i.posthog.com https://us-assets.i.posthog.com https://api.kai-spicer.com https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob:; frame-src 'self'; worker-src 'self' blob: https://cdnjs.cloudflare.com; object-src 'none'; base-uri 'self'; form-action 'none'; frame-ancestors 'self'
 
 # Fingerprinted-by-content assets these are not, so keep the cache short enough
 # that a redeploy is visible immediately.

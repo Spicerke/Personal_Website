@@ -1,0 +1,20 @@
+{
+  // Static site on Workers. No Worker script -- `assets.directory` alone makes
+  // Cloudflare serve the folder straight from its edge, and `_headers` inside
+  // that folder is parsed natively, same as it was under Pages.
+  "name": "kai-spicer",
+  "compatibility_date": "2026-08-28",
+
+  "assets": {
+    "directory": "./public"
+  }
+
+  // After the first deploy succeeds and kai-spicer.workers.dev looks right,
+  // uncomment this to attach the real domain. It creates the DNS records for
+  // you, because the zone is already in this Cloudflare account.
+  //
+  // ,"routes": [
+  //   { "pattern": "kai-spicer.com", "custom_domain": true },
+  //   { "pattern": "www.kai-spicer.com", "custom_domain": true }
+  // ]
+}
