@@ -81,7 +81,7 @@
     <h2 style="font-size:21px;font-weight:400;margin:44px 0 12px">Architecture</h2>
     <p style="font-size:17px;line-height:1.75;margin:0;max-width:64ch;text-wrap:pretty">Once the model was trained I needed a way for users to interact with it, for inference I wrapped the model in a fastAPI endpoint that could be used for inference, to interact with this endpoint I sent a post request from my frontend via Flask that allowed the user to input there sentence and returned whether or not it was a claim (pictured below). To save on processing time and power a local cache was also saved to save computations on already inputed sentences. For a full architecture digram and description check out the README of the github.</p>
     <figure style="margin:24px 0 0">
-      <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px">
+      <div class="shots" style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px">
         <div style="height:230px"><img src="images/claim-input.png" alt="claim input screen" class="shot" loading="lazy"></div>
         <div style="height:230px"><img src="images/claim-result.png" alt="prediction result screen" class="shot" loading="lazy"></div>
       </div>

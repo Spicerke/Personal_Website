@@ -7,14 +7,10 @@
 
   "assets": {
     "directory": "./public"
-  }
+  },
 
-  // After the first deploy succeeds and kai-spicer.workers.dev looks right,
-  // uncomment this to attach the real domain. It creates the DNS records for
-  // you, because the zone is already in this Cloudflare account.
-  //
-  // ,"routes": [
-  //   { "pattern": "kai-spicer.com", "custom_domain": true },
-  //   { "pattern": "www.kai-spicer.com", "custom_domain": true }
-  // ]
+  "routes": [
+     { "pattern": "kai-spicer.com", "custom_domain": true },
+     { "pattern": "www.kai-spicer.com", "custom_domain": true }
+   ]
 }

@@ -109,7 +109,46 @@ input:focus, textarea:focus { border-color: var(--accent); }
                 letter-spacing: 0.12em; text-transform: uppercase; flex: none;
                 color: #5c4320; }
 
+/* Nothing should ever force a horizontal scrollbar. */
+img, canvas, iframe { max-width: 100%; }
+
+@media (max-width: 760px) {
+  /* The nav was squeezing itself against the right edge next to the wordmark
+     and social icons. Give it its own full-width line instead. */
+  header nav {
+    margin-left: 0 !important;
+    justify-content: flex-start !important;
+    width: 100%;
+    gap: 16px !important;
+  }
+}
+
 @media (max-width: 640px) {
   h1 { font-size: 28px !important; }
+  h2 { font-size: 19px !important; }
+
+  /* 28px gutters eat a tenth of a 375px screen on each side. */
+  header > div, main, footer > div, #pi-status {
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+  }
+
+  /* Index rows: date | title+blurb | read → collapses to one column. */
   .row { grid-template-columns: minmax(0, 1fr) !important; gap: 6px !important; }
+
+  /* Screenshot grids stack rather than shrinking to ~110px thumbnails. */
+  .shots { grid-template-columns: minmax(0, 1fr) !important; }
+
+  /* 44px between the form and the contact card is a canyon once wrapped. */
+  .contact-row { gap: 24px !important; }
+  .contact-row aside { width: 100%; flex: 1 1 100% !important; }
+
+  /* A 1000px-tall PDF box is most of a phone screen scrolled twice. */
+  #pdf-native { height: 78vh !important; }
+
+  /* Publications: the 64px year gutter is wasted width at this size. */
+  #publications > div > div { grid-template-columns: minmax(0, 1fr) !important; gap: 4px !important; }
+
+  /* Equations can be wide; let them scroll inside their own row. */
+  .eq { grid-template-columns: 38px minmax(0, 1fr) !important; gap: 10px !important; }
 }
