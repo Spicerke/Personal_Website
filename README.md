@@ -133,6 +133,36 @@ Test it without waiting for the cron: **Actions → Pi uptime → Run workflow**
 Locally, `DRY_RUN=1 python3 monitor/check_pi.py` checks and prints without
 sending anything or touching issues.
 
+
+## Social cards and favicon
+
+Every page carries `<meta name="description">`, a canonical URL, Open Graph and
+Twitter card tags, and the icon set. All of it is generated, so a new page picks
+it up automatically — add an entry to `DESCRIPTIONS` in `gen.py` and it's done.
+Without one a page falls back to the homepage description, which is wrong but
+never blank.
+
+| File | What it is |
+| --- | --- |
+| `og-card.png` | 1200×630 share card: portrait, name, tagline, domain |
+| `favicon.svg` | KS monogram in the accent green, scales to any size |
+| `favicon-32.png` | raster fallback for browsers that ignore SVG icons |
+| `favicon.ico` | 16/32/48 multi-size, for older browsers |
+| `apple-touch-icon.png` | 180×180, used when the site is saved to an iOS home screen |
+
+The card is 1200×630 on purpose: LinkedIn renders that ratio as a large card,
+while a square image collapses to a small thumbnail beside the text. Regenerate
+it by re-running the Pillow snippet in the session notes, or edit the PNG
+directly — nothing reads its contents.
+
+The homepage canonicalises to `https://kai-spicer.com/`, not `/index.html`, so
+the two don't look like separate pages to a crawler.
+
+**After deploying**, prime LinkedIn's cache with the
+[Post Inspector](https://www.linkedin.com/post-inspector/) — it caches
+aggressively, and a URL it fetched before the tags existed will keep showing a
+bare link until you force a re-scrape.
+
 ## Design tokens
 
 Defined once in `styles.css` `:root`:
