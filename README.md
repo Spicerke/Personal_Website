@@ -201,11 +201,28 @@ random `distinct_id` in a cookie, no email, no person profile. PostHog cannot
 tell you apart from a stranger, which is why the two escape hatches below exist.
 
 **Local development** already reports; the site does not need to be deployed.
-`internal_or_test_user_hostname` flags `localhost` and `127.0.0.1` traffic as
-internal so it still arrives (you can verify tracking works) but stays out of
-your numbers — switch on *Project settings → Filter out internal and test users*
-for that to take effect. Note that `file://` URLs are unreliable and ad blockers
-block PostHog outright, so test on the local server in a normal window.
+The `defaults: '2026-05-30'` setting already flags `localhost` and `127.0.0.1`
+as internal, so that traffic still arrives (you can verify tracking works) but
+stays out of your numbers once *Project settings → Filter out internal and test
+users* is on. Do not set `internal_or_test_user_hostname` by hand — the default
+is a RegExp and passing anything else can throw inside `init()`. Note that
+`file://` URLs are unreliable and ad blockers block PostHog outright, so test on
+the local server in a normal window.
+
+**Session replay** needs the project toggle on *and* a session longer than the
+project's `minimumDurationMilliseconds` (5s by default). `defaults` of
+`2025-11-30` or later enable `strictMinimumDuration`, so shorter sessions are
+discarded rather than trimmed. To check what PostHog is actually telling
+browsers:
+
+```bash
+curl -s -X POST 'https://us.i.posthog.com/decide/?v=3' -H 'Content-Type: application/json' \
+  -d '{"api_key":"phc_zkok9vcaQPAeRLYb7kDJshkUJmNcvvphwCLSakFSDHTi","distinct_id":"check"}' \
+  | python3 -m json.tool | grep -A6 sessionRecording
+```
+
+Use `/decide`, not `/flags` — the latter returns feature flags only and has no
+`sessionRecording` key at all.
 
 **Excluding yourself from the live site:** visit any page once with `?ph=off`.
 That calls `opt_out_capturing()`, which persists in localStorage for that

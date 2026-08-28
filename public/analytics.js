@@ -10,10 +10,10 @@ posthog.init('phc_zkok9vcaQPAeRLYb7kDJshkUJmNcvvphwCLSakFSDHTi', {
   defaults: '2026-05-30',
   person_profiles: 'identified_only',
 
-  // Events from these hosts are still sent — so you can confirm tracking works
-  // while developing — but arrive flagged as internal, and the project's
-  // "Filter out internal and test users" setting hides them from insights.
-  internal_or_test_user_hostname: ['localhost', '127.0.0.1'],
+  // NOTE: do not set internal_or_test_user_hostname here. defaults '2026-01-30'
+  // and later already set it to /^(localhost|127\.0\.0\.1)$/ -- a RegExp. An
+  // array here is the wrong type and can throw inside init(), which silently
+  // takes down every downstream feature including session replay.
 });
 
 // One-time self-exclusion for the live site. Visit any page with ?ph=off to
