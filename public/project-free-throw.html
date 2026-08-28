@@ -43,13 +43,53 @@
       <h1 style="font-size:32px;font-weight:400;letter-spacing:-0.02em;margin:0">Free Throw Simulation</h1>
       <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--muted)">simulation &middot; physics</span>
     </div>
-    <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--muted);margin-bottom:32px">private &mdash; academic integrity &middot; Python, NumPy, Matplotlib</div>
-    <p style="font-size:17px;line-height:1.75;margin:0 0 16px;max-width:64ch;text-wrap:pretty">A physics-based free throw simulator built for a computer simulation course.</p>
+    <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--muted);margin-bottom:32px">private &middot; Python, NumPy, Matplotlib</div>
+    <h2 style="font-size:21px;font-weight:400;margin:44px 0 12px">Overview</h2>
+    <p style="font-size:17px;line-height:1.75;margin:0 0 16px;max-width:64ch;text-wrap:pretty">This was a team-based final project for CIS 343: Advanced Data Analysis: Simulations at Washington & Jefferosn College. In groups of five we were tasked with creating a simulation project that could be presented at the end of the semester. I presented the project idea of a free throw simulator which was selected as one of the two projects. This simulation was validated against real data that our team collected and took into account all real life forces.</p>
+    <p style="font-size:17px;line-height:1.75;margin:0 0 16px;max-width:64ch;text-wrap:pretty">Because this was a group project for a class, I am not able to share or host the source code because it is not fully owned by me and I do not have permission to distribute it. To illustrate the functionality, I have included screenshots of the interface and if you would like a live demo feel free to contact me.</p>
     <h2 style="font-size:21px;font-weight:400;margin:44px 0 12px">The model</h2>
-    <p style="font-size:17px;line-height:1.75;margin:0 0 16px;max-width:64ch;text-wrap:pretty">Shots are modeled in two dimensions &mdash; front-facing, with lateral deviation assumed negligible &mdash; under standard Earth constants, with aerodynamic drag applied through the drag equation and backspin treated as constant across the flight.</p>
-    <p style="font-size:17px;line-height:1.75;margin:0 0 16px;max-width:64ch;text-wrap:pretty">Rim physics and backboard reflections are deliberately left out; a geometric clearance condition decides whether the shot scores. That keeps the model general enough to work for a basketball hoop or a trash can.</p>
+    <p style="font-size:17px;line-height:1.75;margin:0 0 16px;max-width:64ch;text-wrap:pretty">Our team worked to make our digital twin of a free throw shot as accurate as possible, taking into account the physics of the shot and the environment. However, due to time and computation constraints we had to make some assumptions, our biggest simlification was treating the shot as a two-dimensional problem. although this isnt fully accurate, it provides a good approximation for educational purposes. We also left out rim and backboard physics for similar reasons, this also allowed us to model our "free throw shot" with any object (like the trash can we used for our in class demo). </p>
+    <p style="font-size:17px;line-height:1.75;margin:0 0 16px;max-width:64ch;text-wrap:pretty">We identified several key factors that influence the outcome of a free throw shot, including the release angle, initial velocity, and environmental conditions. We used classic kinomatic equations accounting for all of this plus drag and the magnus effect to get as accurate of a model as possible. All of the equations we used for our modeling can be seen below: </p>
+    <div class="eqhead">Projectile motion</div>
+    <div class="eqs">
+      <div class="eq"><span class="n">Eq 1</span><span class="b">x = v t cos&thinsp;&theta;</span></div>
+      <div class="eq"><span class="n">Eq 2</span><span class="b">y = h + v t sin&thinsp;&theta; &minus; &frac12; g t&sup2;
+        <span class="where">taking y(0) = h, the release height</span></span></div>
+      <div class="eq"><span class="n">Eq 3</span><span class="b">y = &minus;x&sup2; <span class="frac"><span>g</span><span>2 v&sup2; cos&sup2;&theta;</span></span> + x tan&thinsp;&theta; + h
+        <span class="where">eliminating t between Eq 1 and Eq 2 &mdash; the trajectory in x alone</span></span></div>
+      <div class="eq"><span class="n">Eq 4</span><span class="b">v = <span class="frac"><span>x</span><span>cos&thinsp;&theta;</span></span> &radic;<span class="sqrt"><span class="frac"><span>g / 2</span><span>x tan&thinsp;&theta; + h &minus; H</span></span></span>
+        <span class="where">solved for the release speed that puts the ball through a target of height H at distance x</span></span></div>
+    </div>
+
+    <div class="eqhead">Make condition</div>
+    <div class="eqs">
+      <div class="eq"><span class="n">Eq 5</span><span class="b">sin&thinsp;&alpha; = <span class="frac"><span>r</span><span>2R &minus; r</span></span>
+        <span class="where">r ball radius, R rim radius &mdash; the steepest entry angle that still clears, given |AB| + |BC| = |AC|</span></span></div>
+    </div>
+
+    <div class="eqhead">Forces on the ball</div>
+    <div class="eqs">
+      <div class="eq"><span class="n">Eq 6</span><span class="b">F<sub>D</sub> = &frac12; &rho; v&sup2; C<sub>D</sub> A
+        <span class="where">drag, opposing the velocity vector; &rho; = 1.225 kg/m&sup3;, C<sub>D</sub> = 0.47 for a sphere, A = &pi; r&sup2;</span></span></div>
+      <div class="eq"><span class="n">Eq 7</span><span class="b">C<sub>L</sub> = 1.6 <span class="frac"><span>&omega; A / 2</span><span>v</span></span>
+        <span class="where">lift coefficient from the spin rate &omega;</span></span></div>
+      <div class="eq"><span class="n">Eq 8</span><span class="b">F<sub>M</sub> = C<sub>L</sub> &rho; A v &omega;
+        <span class="where">Magnus force, acting perpendicular to the velocity &mdash; this is what backspin buys you</span></span></div>
+    </div>
+
+    <div class="eqhead">Integration</div>
+    <div class="eqs">
+      <div class="eq"><span class="n">Eq 9</span><span class="b">a<sub>x</sub> = <span class="frac"><span>F<sub>x</sub></span><span>m</span></span>&nbsp;&nbsp;&nbsp; a<sub>y</sub> = <span class="frac"><span>F<sub>y</sub></span><span>m</span></span> &minus; g
+        <span class="where">drag contributes (&minus;v<sub>x</sub>/v, &minus;v<sub>y</sub>/v) and Magnus (&minus;v<sub>y</sub>/v, +v<sub>x</sub>/v), stepped forward at &Delta;t = 0.01 s until y &le; 0</span></span></div>
+    </div>
+    <h2 style="font-size:21px;font-weight:400;margin:44px 0 12px">Validation</h2>
+    <p style="font-size:17px;line-height:1.75;margin:0 0 16px;max-width:64ch;text-wrap:pretty">The most imporant part of any simulation is making sure you validate your output against the real world, in order to do this our team recorded 50 free throw shots and analyzed them with a video software to extract all of our paramaters and get the real flight path, we then ran our simulation with these same paramaters and compared the two trajectories. With this anaylsis we saw that our simulated path was within 1% of the real life trajectory showing that our model was accurate</p>
+    <figure style="margin:24px 0 0">
+      <div style="max-width:520px"><img src="images/ft-validation.png" alt="Scatter plot comparing the simulated trajectory against validation data measured from video, plotted on the same axes. The two paths track closely and begin and end at the same points." style="display:block;width:100%;height:auto;border:1px solid var(--line);border-radius:6px;background:#fff" loading="lazy"></div>
+      <figcaption style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--muted);margin-top:10px">Simulated trajectory against the real shot, tracked frame by frame in LoggerPro. Error bars are the measurement uncertainty from manual point placement.</figcaption>
+    </figure>
     <h2 style="font-size:21px;font-weight:400;margin:44px 0 12px">The interface</h2>
-    <p style="font-size:17px;line-height:1.75;margin:0 0 16px;max-width:64ch;text-wrap:pretty">The front end takes release angle, velocity, shooter height and backspin per shot, with a settings page for the environment and the ball: shoot on the moon or underwater, change hoop height and distance, change ball mass and radius, and watch the trajectory animate against a static plot after each attempt.</p>
+    <p style="font-size:17px;line-height:1.75;margin:0 0 16px;max-width:64ch;text-wrap:pretty">Because we used this during a demo and to allow for easier testing we also created a frontend interface that takes in all intial paramaters and displays the shot. Images of this interface can be seen below, the main page takes simple relase inputs that allow you to take multiple shots in a row at one location while the more advanced settings allow you to edit the rim and location of the hoop you are shooting in</p>
     <figure style="margin:24px 0 0">
       <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px">
         <div style="height:210px"><img src="images/ft-params.png" alt="shot parameter panel" class="shot" loading="lazy"></div>

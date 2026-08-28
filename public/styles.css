@@ -65,6 +65,34 @@ input:focus, textarea:focus { border-color: var(--accent); }
 .dl:hover { color: var(--fg); border-color: var(--muted); }
 
 
+/* Equation block — free-throw project. Plain HTML rather than a maths library:
+   one more CDN dependency for six formulas is not worth it, and this stays
+   readable with styles off. */
+.eqs { margin: 22px 0 6px; display: grid; gap: 14px; }
+.eq {
+  display: grid; grid-template-columns: 46px minmax(0, 1fr); gap: 14px;
+  align-items: baseline;
+}
+.eq > .n {
+  font-family: 'IBM Plex Mono', monospace; font-size: 11px;
+  color: var(--muted); padding-top: 2px;
+}
+.eq > .b {
+  font-family: 'IBM Plex Mono', monospace; font-size: 14.5px;
+  color: var(--fg); line-height: 1.9; overflow-x: auto;
+}
+.eq .where { display: block; font-size: 12px; color: var(--muted); margin-top: 3px; line-height: 1.6; }
+.eqhead {
+  font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--muted); margin: 26px 0 2px;
+}
+/* stacked fraction */
+.frac { display: inline-flex; flex-direction: column; vertical-align: middle;
+        text-align: center; margin: 0 2px; }
+.frac > span { padding: 0 5px; }
+.frac > span:first-child { border-bottom: 1px solid var(--muted); }
+.sqrt { border-top: 1px solid var(--muted); padding: 0 3px; margin-left: -2px; }
+
 @media (max-width: 640px) {
   h1 { font-size: 28px !important; }
   .row { grid-template-columns: minmax(0, 1fr) !important; gap: 6px !important; }
