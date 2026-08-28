@@ -98,6 +98,41 @@ Pages is fully supported and not deprecated, but the feature work goes to
 Workers. Nothing here is Pages-specific except `_headers`, so switching later
 means adding a `wrangler.jsonc` with `assets.directory = "./public"`.
 
+
+## Uptime monitoring
+
+Everything dynamic on this site runs on one Raspberry Pi behind one Cloudflare
+tunnel — the contact endpoint, the Claim Detection demo, and the C web server —
+so they fail together and a single check covers all three.
+
+**On the site:** `status.js` calls `api.kai-spicer.com/api/health` on load and
+every 60s while the tab is visible. On failure it reveals the `#pi-status`
+banner at the top of the page. It starts hidden, so a slow network never
+flashes a false warning, and it skips the check entirely on `localhost` (that
+origin isn't in the API's `ALLOWED_ORIGINS`, so it would always fail locally).
+
+**By email:** `.github/workflows/pi-uptime.yml` runs `monitor/check_pi.py` on
+GitHub Actions every 15 minutes. It deliberately does *not* run on the Pi — a
+monitor hosted on the machine it watches goes down with it.
+
+Email fires only on a state *change*, never every run. Since each Actions run
+starts from a clean checkout with no memory of the last, the previous state is
+held in a GitHub issue labelled `pi-down`: opened on the way down, closed on the
+way back up. Each endpoint is retried 3× with a 5s backoff first, so one flaky
+request doesn't page you.
+
+Requires three repo secrets — **Settings → Secrets and variables → Actions**:
+
+| Secret | Value |
+| --- | --- |
+| `SMTP_USER` | the Gmail address that sends |
+| `SMTP_PASS` | its 16-character App Password, no spaces |
+| `MAIL_TO` | where alerts should land |
+
+Test it without waiting for the cron: **Actions → Pi uptime → Run workflow**.
+Locally, `DRY_RUN=1 python3 monitor/check_pi.py` checks and prints without
+sending anything or touching issues.
+
 ## Design tokens
 
 Defined once in `styles.css` `:root`:

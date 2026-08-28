@@ -1,0 +1,25 @@
+name: Pi uptime
+
+# Runs on GitHub's infrastructure, not the Pi. A monitor living on the machine
+# it watches goes down with it.
+on:
+  schedule:
+    - cron: '*/15 * * * *'     # every 15 minutes (GitHub's floor is 5)
+  workflow_dispatch:            # and on demand, from the Actions tab
+
+permissions:
+  issues: write                 # the open/closed issue is the up/down state
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Probe the Pi's public endpoints
+        env:
+          SMTP_USER: ${{ secrets.SMTP_USER }}
+          SMTP_PASS: ${{ secrets.SMTP_PASS }}
+          MAIL_TO:   ${{ secrets.MAIL_TO }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 monitor/check_pi.py

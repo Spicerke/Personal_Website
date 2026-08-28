@@ -93,6 +93,22 @@ input:focus, textarea:focus { border-color: var(--accent); }
 .frac > span:first-child { border-bottom: 1px solid var(--muted); }
 .sqrt { border-top: 1px solid var(--muted); padding: 0 3px; margin-left: -2px; }
 
+/* Pi status banner — hidden until a health check fails. */
+#pi-status[hidden] { display: none; }
+#pi-status {
+  display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap;
+  /* sticky, not fixed: it holds the top of the viewport while scrolling but
+     still occupies layout space, so it never covers the header underneath. */
+  position: sticky; top: 0; z-index: 100;
+  background: #ddbc8a; border-bottom: 1px solid #c9a674; color: #4a3418;
+  padding: 11px 28px; font-size: 14px; line-height: 1.5;
+}
+#pi-status a { color: #4a3418; text-decoration: underline; text-underline-offset: 2px; }
+#pi-status a:hover { color: #241a0b; }
+#pi-status .t { font-family: 'IBM Plex Mono', monospace; font-size: 11px;
+                letter-spacing: 0.12em; text-transform: uppercase; flex: none;
+                color: #5c4320; }
+
 @media (max-width: 640px) {
   h1 { font-size: 28px !important; }
   .row { grid-template-columns: minmax(0, 1fr) !important; gap: 6px !important; }
