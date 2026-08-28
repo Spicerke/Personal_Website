@@ -44,13 +44,19 @@ log pane polls `/log` and falls back to sample lines when that route is absent, 
 is what happens on Pages. Point the projects card at `http://your-host:8080/writeup.html`
 once the server is running somewhere.
 
-To work on it locally:
+To work on it locally, use the dev server in the session scratchpad rather than
+`python3 -m http.server`:
 
 ```bash
-cd public && python3 -m http.server
+python3 serve.py 8000
 ```
 
-Serve from `public/`, not the repo root — that's what Pages publishes, so it's
+It differs from the stdlib server in two ways that matter here: it sends
+`Cache-Control: no-store` (the stdlib one sends none, so browsers reuse stale
+files and edits look like they did not land), and it resolves extensionless
+URLs to their `.html` file, which is how Cloudflare serves them in production.
+
+Serve from `public/`, not the repo root — that is what gets published, so it is
 the only layout that matches production.
 
 Everything except the pieces above is inline `style="…"` on the elements
