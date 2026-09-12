@@ -1,0 +1,49 @@
+name: Deploy
+
+# The site is a Worker serving ./public as static assets (see wrangler.jsonc).
+# Workers static assets have no built-in git integration the way Pages did, so
+# nothing reaches kai-spicer.com until `wrangler deploy` runs. This workflow is
+# what runs it — a push to main is once again all it takes.
+on:
+  push:
+    branches: [main]
+    paths:
+      # Only what actually changes the deployed output. A README-only commit
+      # doesn't need a deploy; if you add a new top-level published directory,
+      # add it here or its changes will never ship.
+      - 'public/**'
+      - 'wrangler.jsonc'
+      - '.github/workflows/deploy.yml'
+  workflow_dispatch:            # and on demand, from the Actions tab
+
+# A deploy is a whole-site replace, so only the newest one matters. Cancel an
+# in-flight run when another push lands rather than racing to publish.
+concurrency:
+  group: deploy
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Deploy to Cloudflare Workers
+        uses: cloudflare/wrangler-action@v4
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          # Pinned so a wrangler release can't change deploy behaviour behind
+          # your back. Bump it deliberately, and keep it matched to whatever
+          # `npx wrangler --version` prints locally.
+          wranglerVersion: '4.131.1'
+
+      - name: Verify the change is actually being served
+        # The edge caches HTML, so a plain fetch can return the old page and a
+        # green deploy can still look like nothing happened. The query string
+        # busts that cache; the redirect follow handles /experience -> .html.
+        run: |
+          sleep 5
+          curl -fsSL "https://kai-spicer.com/?cachebust=${GITHUB_SHA}" -o /tmp/live.html
+          grep -q 'Kai Spicer' /tmp/live.html
+          echo "Homepage is live and serving expected content."

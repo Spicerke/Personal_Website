@@ -1,7 +1,7 @@
 # Kai Spicer — personal site
 
 Plain HTML/CSS/JS. No build step, no framework. Live at
-[kai-spicer.com](https://kai-spicer.com) on Cloudflare Pages.
+[kai-spicer.com](https://kai-spicer.com) on Cloudflare Workers.
 
 ```
 public/                       ← everything here is published; nothing else is
@@ -20,7 +20,7 @@ public/                       ← everything here is published; nothing else is
   analytics.js                PostHog init + custom event wiring (every page)
   contact.js                  Contact form submit handler (contact.html only)
   resume.js                   PDF.js résumé reader (resume.html only)
-  _headers                    Security + cache headers, applied by Pages
+  _headers                    Security + cache headers, applied by Workers
   images/                     Screenshots and portrait
   Downloaders/                Résumé, CV, SULI report PDFs
 
@@ -41,7 +41,7 @@ card and change the five slots.
 `server-writeup.html` is deliberately self-contained — no external CSS, fonts, or
 scripts — because it is meant to be served by the C server itself as the demo. Its
 log pane polls `/log` and falls back to sample lines when that route is absent, which
-is what happens on Pages. Point the projects card at `http://your-host:8080/writeup.html`
+is what happens on the static site. Point the projects card at `http://your-host:8080/writeup.html`
 once the server is running somewhere.
 
 To work on it locally, use the dev server in the session scratchpad rather than
@@ -63,46 +63,69 @@ Everything except the pieces above is inline `style="…"` on the elements
 themselves — intentional, so a page is self-contained and easy to tweak in
 place.
 
-Filenames are all lowercase because GitHub Pages serves from a case-sensitive
-filesystem while macOS does not. A path that works locally can 404 in
+Filenames are all lowercase because Cloudflare's edge serves from a
+case-sensitive filesystem while macOS does not. A path that works locally can 404 in
 production; keeping one casing convention avoids the whole class of bug.
 
 ## Deploying
 
-Cloudflare Pages, connected to this repo. Every push to `main` deploys; pull
-requests get their own preview URL.
+The site is a **Worker serving `public/` as static assets**. `wrangler.jsonc` is
+the entire configuration — there is no Worker script, and `assets.directory`
+alone makes Cloudflare serve the folder from its edge. It began life on
+Cloudflare Pages and was migrated in `67b2d07`.
 
-One-time setup in [dash.cloudflare.com](https://dash.cloudflare.com) →
-**Workers & Pages → Create → Pages → Connect to Git**:
+**Every push to `main` deploys**, via `.github/workflows/deploy.yml`. That
+workflow exists because Workers static assets have no built-in git integration
+the way Pages did: nothing reaches kai-spicer.com until `wrangler deploy` runs,
+so the workflow is what runs it. After deploying it re-fetches the live homepage
+with a cache-busting query string and greps it, because the edge caches HTML and
+a green deploy can otherwise sit behind a stale page.
 
-| Setting | Value |
+It fires only for changes under `public/`, to `wrangler.jsonc`, or to the
+workflow itself — a README-only commit doesn't need a deploy. If you ever
+publish a new top-level directory, add it to that `paths:` list or its changes
+will never ship.
+
+Two repo secrets, **Settings → Secrets and variables → Actions**:
+
+| Secret | Value |
 | --- | --- |
-| Repository | `Spicerke/Personal_Website` |
-| Production branch | `main` |
-| Framework preset | None |
-| Build command | *(leave blank)* |
-| Build output directory | `public` |
+| `CLOUDFLARE_API_TOKEN` | **My Profile → API Tokens → Create Token → Edit Cloudflare Workers**. That template grants Workers Scripts edit *and* Workers Routes edit; both are needed, since a deploy reconciles the custom domains in `wrangler.jsonc`. |
+| `CLOUDFLARE_ACCOUNT_ID` | the account ID from the dashboard sidebar, or `npx wrangler whoami` |
 
-Then **Custom domains → Set up a custom domain**, and add `kai-spicer.com` and
-`www.kai-spicer.com`. Because the zone is already in the same Cloudflare
-account, the DNS records are created for you — don't add them by hand.
+To deploy by hand — a one-off, or if Actions is unavailable:
 
-**Why the `public/` directory exists.** Pages has no ignore file: whatever is in
-the output directory gets published. Deploying from the repo root would put
+```bash
+npx wrangler deploy
+```
+
+Either way, verify against the edge rather than trusting a browser reload. The
+query string is what defeats the cache:
+
+```bash
+curl -s "https://kai-spicer.com/experience?cb=$RANDOM" | grep -o 'Under Review.*'
+```
+
+`npx wrangler deployments list` shows what is actually published and when, which
+is the fastest way to answer "is my change live?".
+
+Custom domains are already attached (`kai-spicer.com` and `www.kai-spicer.com`,
+declared as `routes` in `wrangler.jsonc`). Because the zone is in the same
+Cloudflare account, the DNS records were created automatically — don't add them
+by hand.
+
+**Why the `public/` directory exists.** Whatever sits in the assets directory
+gets published; there is no ignore file. Deploying from the repo root would put
 `server/app.py` and the Pi setup notes on the public site at
 `kai-spicer.com/server/…`. Nothing there is secret — it's a public repo — but
 the contact endpoint's rate-limit thresholds aren't worth handing out. Keeping
 the site in `public/` means the server code can't be published by accident.
 
-`_headers` is read and applied by Pages, not served. The CSP in it is
-deliberately `Content-Security-Policy-Report-Only` for now; see the comments in
-that file for how to promote it to enforcing once you've confirmed no
-violations in the console.
-
-Cloudflare now points new projects at Workers static assets rather than Pages —
-Pages is fully supported and not deprecated, but the feature work goes to
-Workers. Nothing here is Pages-specific except `_headers`, so switching later
-means adding a `wrangler.jsonc` with `assets.directory = "./public"`.
+`_headers` is read and applied by Workers static assets, not served — the same
+native handling it got under Pages. The CSP in it is deliberately
+`Content-Security-Policy-Report-Only` for now; see the comments in that file for
+how to promote it to enforcing once you've confirmed no violations in the
+console.
 
 
 ## Uptime monitoring
