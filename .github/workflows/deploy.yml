@@ -47,14 +47,20 @@ jobs:
         env:
           CF_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CF_ZONE_ID: ${{ secrets.CLOUDFLARE_ZONE_ID }}
+        # No -f on curl: on an error Cloudflare's JSON body says exactly what's
+        # wrong (missing permission, bad zone ID), and -f would discard it.
         run: |
-          curl -fsS -X POST \
+          status=$(curl -sS -o /tmp/purge.json -w '%{http_code}' -X POST \
             "https://api.cloudflare.com/client/v4/zones/${CF_ZONE_ID}/purge_cache" \
             -H "Authorization: Bearer ${CF_API_TOKEN}" \
             -H "Content-Type: application/json" \
-            --data '{"purge_everything":true}' \
-            | tee /tmp/purge.json
-          grep -q '"success":true' /tmp/purge.json
+            --data '{"purge_everything":true}')
+          echo "HTTP $status"
+          cat /tmp/purge.json; echo
+          if ! grep -q '"success":true' /tmp/purge.json; then
+            echo "::error::Cache purge failed (HTTP $status): $(cat /tmp/purge.json)"
+            exit 1
+          fi
 
       - name: Verify the change is actually being served
         # Compare every published page byte-for-byte with what's in the repo.
