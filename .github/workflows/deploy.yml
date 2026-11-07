@@ -38,12 +38,41 @@ jobs:
           # `npx wrangler --version` prints locally.
           wranglerVersion: '4.131.1'
 
-      - name: Verify the change is actually being served
-        # The edge caches HTML, so a plain fetch can return the old page and a
-        # green deploy can still look like nothing happened. The query string
-        # busts that cache; the redirect follow handles /experience -> .html.
+      - name: Purge Cloudflare edge cache
+        # A zone Cache Rule caches HTML at the edge regardless of _headers, and
+        # it ignores query strings, so without this a successful deploy keeps
+        # serving the old pages. The site is small; purging everything is
+        # simpler than tracking which URLs changed.
+        # Needs CLOUDFLARE_ZONE_ID, and Zone > Cache Purge on the API token.
+        env:
+          CF_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CF_ZONE_ID: ${{ secrets.CLOUDFLARE_ZONE_ID }}
         run: |
-          sleep 5
-          curl -fsSL "https://kai-spicer.com/?cachebust=${GITHUB_SHA}" -o /tmp/live.html
-          grep -q 'Kai Spicer' /tmp/live.html
-          echo "Homepage is live and serving expected content."
+          curl -fsS -X POST \
+            "https://api.cloudflare.com/client/v4/zones/${CF_ZONE_ID}/purge_cache" \
+            -H "Authorization: Bearer ${CF_API_TOKEN}" \
+            -H "Content-Type: application/json" \
+            --data '{"purge_everything":true}' \
+            | tee /tmp/purge.json
+          grep -q '"success":true' /tmp/purge.json
+
+      - name: Verify the change is actually being served
+        # Compare every published page byte-for-byte with what's in the repo.
+        # The edge serves the files unmodified, so any difference means a
+        # stale page. Retries give the purge a moment to propagate.
+        run: |
+          stale=""
+          for attempt in 1 2 3 4 5 6; do
+            sleep 10
+            stale=""
+            for f in public/*.html; do
+              page=$(basename "$f" .html)
+              [ "$page" = index ] && page=""
+              curl -fsSL "https://kai-spicer.com/${page}" -o /tmp/live.html
+              cmp -s /tmp/live.html "$f" || stale="$stale /${page}"
+            done
+            [ -z "$stale" ] && { echo "All pages are live and match the repo."; exit 0; }
+            echo "Attempt $attempt: still stale:$stale"
+          done
+          echo "::error::Live pages don't match the deployed files:$stale"
+          exit 1

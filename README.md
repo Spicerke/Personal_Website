@@ -15,15 +15,17 @@ the entire configuration — there is no Worker script, and `assets.directory`
 alone makes Cloudflare serve the folder from its edge.
 
 **Every push to `main` deploys**, via `.github/workflows/deploy.yml`. 
-After deploying it re-fetches the live homepage with a cache-busting query string and greps it, because the edge caches HTML and
-a green deploy can otherwise sit behind a stale page.
+After deploying it purges the Cloudflare edge cache (a zone Cache Rule caches
+HTML and ignores query strings, so a green deploy can otherwise sit behind a
+stale page), then checks every page in `public/` byte-for-byte against the live site.
 
 
-Two repo secrets, **Settings → Secrets and variables → Actions**:
+Three repo secrets, **Settings → Secrets and variables → Actions**:
 
 | Secret | Value |
 | --- | --- |
-| `CLOUDFLARE_API_TOKEN` | **My Profile → API Tokens → Create Token → Edit Cloudflare Workers**. That template grants Workers Scripts edit *and* Workers Routes edit; both are needed, since a deploy reconciles the custom domains in `wrangler.jsonc`. |
+| `CLOUDFLARE_API_TOKEN` | **My Profile → API Tokens → Create Token → Edit Cloudflare Workers**. That template grants Workers Scripts edit *and* Workers Routes edit; both are needed, since a deploy reconciles the custom domains in `wrangler.jsonc`. Also add **Zone → Cache Purge → Purge** for kai-spicer.com, for the purge step. |
+| `CLOUDFLARE_ZONE_ID` | the Zone ID on the kai-spicer.com **Overview** page, right-hand sidebar |
 | `CLOUDFLARE_ACCOUNT_ID` | the account ID from the dashboard sidebar, or `npx wrangler whoami` |
 
 To deploy by hand — a one-off, or if Actions is unavailable:
@@ -32,11 +34,12 @@ To deploy by hand — a one-off, or if Actions is unavailable:
 npx wrangler deploy
 ```
 
-Either way, verify against the edge rather than trusting a browser reload. The
-query string is what defeats the cache:
+A hand deploy doesn't purge the cache, so purge it afterwards (dashboard →
+**Caching → Configuration → Purge Cache**). A query string does *not* get past
+the cache here. Then verify against the edge rather than trusting a browser reload:
 
 ```bash
-curl -s "https://kai-spicer.com/experience?cb=$RANDOM" | grep -o 'Under Review.*'
+curl -s https://kai-spicer.com/experience | diff -q - public/experience.html && echo live
 ```
 
 `npx wrangler deployments list` shows what is actually published and when, which
